@@ -22,6 +22,7 @@
     });
     return parse;
   };
+
   /**
    * @param {Object} map
    * @returns {String}
@@ -33,6 +34,7 @@
     });
     return segments.join('&');
   };
+
   /**
    * @param {*} value
    * @returns {Boolean}
@@ -40,6 +42,7 @@
   const isValidConfigValue = (value) => {
     return typeof value === 'string' && value.length > 0 && !isNaN(value);
   };
+
   /**
    * @param {String} configString
    * @returns {Object}
@@ -62,6 +65,7 @@
     }
     return layerConfigs;
   };
+
   /**
    * @param {Object} layerConfigs
    * @returns {String}
@@ -74,6 +78,7 @@
     }
     return segments.join('|');
   };
+
   /**
    * @param {String} extentString
    * @returns {Array.<Number>}
@@ -86,6 +91,7 @@
     }
     return extent;
   };
+
   /**
    * @param {Array.<Number>} extent
    * @returns {String}
@@ -94,6 +100,7 @@
     const segments = extent.slice(0, 4);
     return (segments.length === 4) ? segments.join(',') : '';
   };
+
   // @type {Object.<SourceType, LayerType>}
   const layerTypeMapping = {
     "BingMaps": "Tile",
@@ -123,29 +130,61 @@
     "XYZ": "Tile",
     "Zoomify": "Tile"
   };
+
   const supportedSourceTypes = Object.keys(layerTypeMapping);
+
   const $mapContainer = $('#map');
   const $notificationContainer = $('#notifications');
+
   if ($mapContainer.length === 0 || $notificationContainer.length === 0) {
     throw new ReferenceError('Can not find elements.');
   }
+
+  // Layer List Control.
+  const LayerListControl = function () {
+    const options = opt_options || {};
+
+    const button = document.createElement('button');
+    button.innerHTML = 'N';
+
+    const this_ = this;
+    const handleRotateNorth = function() {
+      this_.getMap().getView().setRotation(0);
+    };
+
+    button.addEventListener('click', handleRotateNorth, false);
+    button.addEventListener('touchstart', handleRotateNorth, false);
+
+    const element = document.createElement('div');
+    element.className = 'rotate-north ol-unselectable ol-control';
+    element.appendChild(button);
+
+    ol.control.Control.call(this, {
+      element: element,
+      target: options.target
+    });
+  };
+  ol.inherits(LayerListControl, ol.control.Control);
+
   // Start map loading.
   const map = new ol.Map({
     target: $mapContainer[0],
-    controls: ol.control.defaults(),
+    controls: ol.control.defaults().extend([
+      new LayerListControl()
+    ]),
     view: new ol.View({
       center: [0, 0],
       zoom: 0
     })
   });
   const mainLayerGroup = map.getLayerGroup();
-  //console.info('mainLayerGroup', mainLayerGroup);
   const mainLayerCollection = mainLayerGroup.getLayers();
-  //console.info('mainLayerCollection', mainLayerCollection);
+
   // Runtime data.
   let busy = false,
       loaded = false,
       loadedSourceUrl = null;
+
   const startWithHash = (hash) => {
     if (busy) {
       console.warn('Hash update while busy!');
@@ -218,6 +257,7 @@
       });
     }
   };
+
   const loadLayers = function (layerConfigs) {
     if (!Array.isArray(layerConfigs)) {
       throw new TypeError('Expect layers to be an array.');
@@ -286,6 +326,7 @@
       this.push(layer);
     }
   };
+
   const updateLayers = function (extra) {
     this.forEach((layer) => {
       const layerId = layer.get('id');
@@ -303,6 +344,7 @@
       }
     });
   };
+
   $(window).on('load', () => {
     startWithHash(location.hash);
     $(window).on('hashchange', () => {
