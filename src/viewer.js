@@ -141,7 +141,7 @@
   }
 
   // Layer List Control.
-  const LayerListControl = function () {
+  const LayerListControl = function (opt_options) {
     const options = opt_options || {};
 
     const button = document.createElement('button');
