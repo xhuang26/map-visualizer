@@ -1,0 +1,29 @@
+{
+    "layers": [
+        {
+            "id": "a",
+            "title": "A",
+            "zIndex": 0,
+            "visible": true,
+            "opacity": 0.1,
+            "source": {
+                "type": "OSM",
+                "options": {}
+            }
+        },
+        {
+            "id": "b",
+            "title": "B",
+            "zIndex": 0,
+            "visible": true,
+            "opacity": 0.1,
+            "source": {
+                "type": "MapQuest",
+                "options": {
+                    "layer": "sat"
+                }
+            }
+        }
+    ],
+    "extent": [1, 2, 3, 4]
+}
