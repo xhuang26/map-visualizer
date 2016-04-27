@@ -88,6 +88,11 @@ html, body {
 #map > .ol-viewport .layer-list__item {
   padding: 5px 10px;
   font-size: 18px;
+  
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 #map > .ol-viewport .ol-control.ol-zoom {
