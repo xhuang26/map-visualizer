@@ -146,7 +146,7 @@
 
     const button = document.createElement('button');
     button.className = 'material-icons';
-    button.innerHTML = 'layers';
+    button.textContent = 'layers';
 
     const this_ = this;
     const handleRotateNorth = function() {
