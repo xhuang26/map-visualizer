@@ -193,6 +193,14 @@
     $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Hide}`, this.boundToggleLayerVisibilityHandler_);
     $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Hide}`, this.boundToggleLayerVisibilityHandler_);
 
+    this.boundPromoteLayerHandler_ = this.promoteLayerHandler_.bind(this);
+    $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Promote}`, this.boundPromoteLayerHandler_);
+    $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Promote}`, this.boundPromoteLayerHandler_);
+    
+    this.boundDemoteLayerHandler_ = this.demoteLayerHandler_.bind(this);
+    $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
+    $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
+
     this.boundToggleLayerListHandler_ = this.toggleLayerListHandler_.bind(this);
     this.toggleButton_.addEventListener('click', this.boundToggleLayerListHandler_, false);
     this.toggleButton_.addEventListener('touchstart', this.boundToggleLayerListHandler_, false);
@@ -240,6 +248,48 @@
     setHashValue({
       "config": configString
     });
+  };
+  LayerListControl.prototype.promoteLayerHandler_ = function (event) {
+    // Get this layer.
+    const button = event.currentTarget;
+    const layerRowElement = button.parentElement;
+    const layerId = layerRowElement.getAttribute('data-layer-id');
+    const thisLayer = this.layerMap_.get(layerId);
+    const layerIndex = -1;
+    this.layers_.forEach((layer, index, layers) => {
+      if (layer === thisLayer) {
+        layerIndex = index;
+      }
+    });
+    
+    // Range check.
+    if (layerIndex < 0 || layerIndex >= this.layers_.length) {
+      throw new RangeError('Unexpected layer index.');
+    }
+    if (layerIndex === 0) {
+      console.warn('Can not promote top most layer.');
+      return;
+    }
+
+    // Update zIndex of layers with their index in list (since the list is sorted).
+    this.layers_.forEach((layer, index, layers) => {
+      layer.zIndex = (layers.length - 1) - index;
+    });
+    
+    // Swap zIndex between this layer and its upper layer (if present).
+    const upperLayer = this.layers_[layerIndex - 1];
+    // Since the updated zIndex values are continuous, swapping could be done this way.
+    upperLayer.zIndex--;
+    thisLayer.zIndex++;
+  
+    // Update hash.
+    const configString = buildLayerConfigString(this.layers_);
+    setHashValue({
+      "config": configString
+    });
+  };
+  LayerListControl.prototype.demoteLayerHandler_ = function (event) {
+    //!
   };
   /**
    * Reload everything in the list from the provided layer configs and extra configs.
