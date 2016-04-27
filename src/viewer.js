@@ -171,7 +171,7 @@
 
     const sortLayers = function (layers) {
       layers.sort((a, b) => {
-        return (a.zIndex < b.zIndex) ? -1 : (a.index - b.index);
+        return (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
       });
     }.bind(this, layers);
 
