@@ -108,6 +108,20 @@ html, body {
   background-color: rgba(33, 33, 33, 0.2);
 }
 
+#map > .ol-viewport .layer-list__item .layer-list__item__action-hide {
+  visibility: hidden;
+}
+#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-hide {
+  visibility: visible;
+}
+
+#map > .ol-viewport .layer-list__item:not(.layer-list__item--hidden) .layer-list__item__action-show {
+  display: none;
+}
+#map > .ol-viewport .layer-list__item.layer-list__item--hidden .layer-list__item__action-hide {
+  display: none;
+}
+
 #map > .ol-viewport .ol-control.ol-zoom {
   top: 3em;
   left: 0.5em;
