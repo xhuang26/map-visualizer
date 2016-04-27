@@ -147,7 +147,9 @@
           "XYZ": "Tile",
           "Zoomify": "Tile"
         },
-        supportedSourceTypes = Object.keys(layerTypeMapping);
+        supportedSourceTypes = Object.keys(layerTypeMapping),
+        minOpacity = 0.1,
+        maxOpacity = 1.0;
 
   const $mapContainer = $('#map'),
         $notificationContainer = $('#notifications');
@@ -405,9 +407,9 @@
     const itemRowOpacityInput = document.createElement('input');
     itemRowOpacityInput.className = `${this.CssClasses_.ItemRow}__input`;
     itemRowOpacityInput.type = 'range';
-    itemRowOpacityInput.max = 100;
-    itemRowOpacityInput.min = 1;
-    itemRowOpacityInput.step = 1;
+    itemRowOpacityInput.max = maxOpacity * 100;
+    itemRowOpacityInput.min = minOpacity * 100;
+    itemRowOpacityInput.step = 10;
     itemRowOpacityInput.value = Math.floor(layer.opacity * 100);
     
     const itemRowOpacityValueLabel = document.createElement('label');
@@ -670,6 +672,9 @@
       }
       if (typeof config.opacity !== 'number') {
         throw new TypeError('Expect layer opacity to be a number.');
+      }
+      if (config.opacity < minOpacity || config.opacity > maxOpacity) {
+        throw new RangeError('Invalid layer opacity value.');
       }
       if (typeof config.extent !== 'undefined') {
         if (!Array.isArray(config.extent)) {
