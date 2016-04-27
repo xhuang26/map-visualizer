@@ -167,7 +167,8 @@
     layerListContainer.appendChild(layerListBody);
 
     // Internal data structure storing layers.
-    const internalLayers = [];
+    const internalLayers = [],
+          internalLayerMap = new Map();
 
     const compareLayerOrder = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
     const sortLayers = function (layers) {
@@ -181,6 +182,7 @@
         container.removeChild(container.lastChild);
       }
       internalLayers.length = 0;
+      internalLayerMap.clear();
 
       // Load layers into internal data structure.
       layerConfigs.forEach((config, index) => {
@@ -204,6 +206,7 @@
         }
 
         internalLayers.push(newLayer);
+        internalLayerMap.set(layerId, newLayer);
       });
 
       sortLayers(internalLayers);
