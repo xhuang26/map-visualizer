@@ -159,6 +159,12 @@ html, body {
   text-align: center;
 }
 
+#map > .ol-viewport .layer-list__item .layer-list__item-row.row-opacity {
+  background-color: rgba(222, 222, 222, 1);
+  border-left: 5px solid transparent;
+  background-clip: content-box;
+}
+
 #map > .ol-viewport .layer-list__item:not(.layer-list__item--opacity-control-expanded) .layer-list__item-row.row-opacity {
   display: none;
 }
