@@ -16,6 +16,17 @@ html, body {
   background-color: rgba(33, 33, 33, 0.8);
 }
 
+#map .ol-control.layer-list {
+  top: 0.5em;
+  left: 0.5em;
+}
+
+#map .ol-control.ol-zoom {
+  top: 4.5em;
+  left: 0.5em;
+}
+
+
 #notifications {
   position: absolute;
   z-index: 2;
