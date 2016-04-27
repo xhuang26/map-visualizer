@@ -29,9 +29,9 @@
    */
   const buildHash = (map) => {
     let segments = [];
-    map.forEach((value, key) => {
-      segments.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
-    });
+    for (let key of Object.keys(map)) {
+      segments.push(`${encodeURIComponent(key)}=${encodeURIComponent(map[key])}`);
+    }
     return segments.join('&');
   };
 
