@@ -16,7 +16,7 @@ html, body {
   background-color: rgba(33, 33, 33, 0.8);
 }
 
-#map .layer-list {
+#map > .ol-viewport .layer-list {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -24,15 +24,15 @@ html, body {
   overflow: visible;
 }
 
-#map .layer-list .layer-list__toggle.ol-control {
+#map > .ol-viewport .layer-list .layer-list__toggle.ol-control {
   top: 0;
   left: 100%;
   margin-top: 0.5em;
   margin-left: 0.5em;
 }
 
-#map .layer-list .layer-list__container {
-  position: relative;
+#map > .ol-viewport .layer-list .layer-list__container {
+  position: absolute;
   top: 0;
   right: 0;
   width: 400px;
@@ -42,7 +42,7 @@ html, body {
   color: black;
 }
 
-#map .ol-control.ol-zoom {
+#map > .ol-viewport .ol-control.ol-zoom {
   top: 3em;
   left: 0.5em;
 }
