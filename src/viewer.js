@@ -218,6 +218,7 @@
   ol.inherits(LayerListControl, ol.control.Control);
   LayerListControl.prototype.CssClasses_ = {
     "ListExpanded": "layer-list--expanded",
+    "ItemRow": "layer-list__item-row",
     "Item": "layer-list__item",
     "Item_Hidden": "layer-list__item--hidden",
     "ItemAction_Hide": "layer-list__item__action-hide",
@@ -239,8 +240,9 @@
   };
   LayerListControl.prototype.toggleLayerVisibilityHandler_ = function (event) {
     const button = event.currentTarget;
-    const layerRowElement = button.parentElement;
-    const layerId = layerRowElement.getAttribute('data-layer-id');
+    const rowElement = button.parentElement;
+    const layerElement = rowElement.parentElement;
+    const layerId = layerElement.getAttribute('data-layer-id');
     const layer = this.layerMap_.get(layerId);
     layer.visible = !layer.visible;
 
@@ -253,8 +255,9 @@
   LayerListControl.prototype.promoteLayerHandler_ = function (event) {
     // Find this layer.
     const button = event.currentTarget;
-    const layerRowElement = button.parentElement;
-    const layerId = layerRowElement.getAttribute('data-layer-id');
+    const rowElement = button.parentElement;
+    const layerElement = rowElement.parentElement;
+    const layerId = layerElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
     let layerIndex = -1;
     this.layers_.forEach((layer, index, layers) => {
@@ -290,8 +293,9 @@
   LayerListControl.prototype.demoteLayerHandler_ = function (event) {
     // Find this layer.
     const button = event.currentTarget;
-    const layerRowElement = button.parentElement;
-    const layerId = layerRowElement.getAttribute('data-layer-id');
+    const rowElement = button.parentElement;
+    const layerElement = rowElement.parentElement;
+    const layerId = layerElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
     let layerIndex = -1;
     this.layers_.forEach((layer, index, layers) => {
@@ -362,6 +366,18 @@
     itemOpacityToggle.title = 'Toggle opacity slider';
     itemOpacityToggle.textContent = 'opacity';
 
+    const itemRowMain = document.createElement('div');
+    itemRowMain.className = this.CssClasses_.ItemRow;
+    itemRowMain.appendChild(itemHideToggle);
+    itemRowMain.appendChild(itemLabel);
+    itemRowMain.appendChild(itemDemote);
+    itemRowMain.appendChild(itemPromote);
+    itemRowMain.appendChild(itemOpacityToggle);
+    
+    const itemRowOpacity = document.createElement('div');
+    itemRowOpacity.className = `${this.CssClasses_.ItemRow} row-opacity`;
+    itemRowOpacity.textContent = 'Put a slider here.';
+
     const itemContainer = document.createElement('div');
     itemContainer.className = this.CssClasses_.Item;
     if (!layer.visible) {
@@ -370,11 +386,8 @@
       itemContainer.classList.remove(this.CssClasses_.Item_Hidden);
     }
     itemContainer.setAttribute('data-layer-id', layer.id);
-    itemContainer.appendChild(itemHideToggle);
-    itemContainer.appendChild(itemLabel);
-    itemContainer.appendChild(itemDemote);
-    itemContainer.appendChild(itemPromote);
-    itemContainer.appendChild(itemOpacityToggle);
+    itemContainer.appendChild(itemRowMain);
+    itemContainer.appendChild(itemRowOpacity);
 
     return itemContainer;
   };
