@@ -111,15 +111,9 @@ html, body {
 #map > .ol-viewport .layer-list__item .layer-list__item__action-hide {
   visibility: hidden;
 }
-#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-hide {
-  visibility: visible;
-}
-
-#map > .ol-viewport .layer-list__item:not(.layer-list__item--hidden) .layer-list__item__action-show {
-  display: none;
-}
+#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-hide,
 #map > .ol-viewport .layer-list__item.layer-list__item--hidden .layer-list__item__action-hide {
-  display: none;
+  visibility: visible;
 }
 
 #map > .ol-viewport .ol-control.ol-zoom {
