@@ -145,7 +145,8 @@
 
   const LayerListExpandedFlag = 'layer-list--expanded',
         LayerItemClasName = 'layer-list__item',
-        LayerItemHiddenFlag = LayerItemClasName + '--hidden';
+        LayerItemHiddenFlag = LayerItemClasName + '--hidden',
+        LayerItemHideToggle = LayerItemClasName + '__action-hide';
 
   const supportedSourceTypes = Object.keys(layerTypeMapping);
 
@@ -174,6 +175,13 @@
 
     const layerListBody = document.createElement('div');
     layerListBody.className = 'layer-list__body';
+
+    const handleToggleLayerVisibility = function (event) {
+      console.log(event.target);
+    }.bind(this);
+
+    $(layerListBody).on('click', '.' + LayerItemHideToggle, handleToggleLayerVisibility);
+    $(layerListBody).on('touchstart', '.' + LayerItemHideToggle, handleToggleLayerVisibility);
 
     const layerListContainer = document.createElement('div');
     layerListContainer.className = 'layer-list__container';
@@ -227,13 +235,9 @@
 
       // Build DOM.
       internalLayers.forEach((layer) => {
-        const itemShowButton = document.createElement('button');
-        itemShowButton.className = LayerItemClasName + '__action-show material-icons';
-        itemShowButton.textContent = 'visibility';
-
-        const itemHideButton = document.createElement('button');
-        itemHideButton.className = LayerItemClasName + '__action-hide material-icons';
-        itemHideButton.textContent = 'visibility_off';
+        const itemHideToggle = document.createElement('button');
+        itemHideToggle.className = LayerItemHideToggle + ' material-icons';
+        itemHideToggle.textContent = 'visibility_off';
 
         const itemLabel = document.createElement('label');
         itemLabel.className = LayerItemClasName + '__label';
@@ -247,8 +251,7 @@
           itemContainer.classList.remove(LayerItemHiddenFlag);
         }
         itemContainer.setAttribute('data-layer-id', layer.id);
-        itemContainer.appendChild(itemShowButton);
-        itemContainer.appendChild(itemHideButton);
+        itemContainer.appendChild(itemHideToggle);
         itemContainer.appendChild(itemLabel);
 
         container.appendChild(itemContainer);
