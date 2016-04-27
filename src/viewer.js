@@ -178,6 +178,7 @@
 
     const button = document.createElement('button');
     button.className = 'material-icons';
+    button.title = 'Toggle layer list';
     button.textContent = 'layers';
 
     const fakeControl = document.createElement('div');
@@ -253,6 +254,7 @@
       internalLayers.forEach((layer) => {
         const itemHideToggle = document.createElement('button');
         itemHideToggle.className = `${LayerItemHideToggle} material-icons`;
+        itemHideToggle.title = 'Toggle layer visibility';
         itemHideToggle.textContent = 'visibility_off';
 
         const itemLabel = document.createElement('label');
@@ -261,9 +263,11 @@
 
         const itemPromote = document.createElement('button');
         itemPromote.className = `${LayerItemPromote} material-icons`;
+        itemPromote.title = 'Bring layer forward';
         itemPromote.textContent = 'keyboard_arrow_up';
         const itemDemote = document.createElement('button');
         itemDemote.className = `${LayerItemDemote} material-icons`;
+        itemDemote.title = 'Send layer backward';
         itemDemote.textContent = 'keyboard_arrow_down';
 
         const itemContainer = document.createElement('div');
