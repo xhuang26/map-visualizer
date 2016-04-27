@@ -146,7 +146,9 @@
   const LayerListExpandedFlag = 'layer-list--expanded',
         LayerItemClasName = 'layer-list__item',
         LayerItemHiddenFlag = LayerItemClasName + '--hidden',
-        LayerItemHideToggle = LayerItemClasName + '__action-hide';
+        LayerItemHideToggle = LayerItemClasName + '__action-hide',
+        LayerItemPromote = LayerItemClasName + '__action-promote',
+        LayerItemDemote = LayerItemClasName + '__action-demote';
 
   const supportedSourceTypes = Object.keys(layerTypeMapping);
 
@@ -243,6 +245,13 @@
         itemLabel.className = LayerItemClasName + '__label';
         itemLabel.textContent = layer.title;
 
+        const itemPromote = document.createElement('button');
+        itemPromote.className = LayerItemPromote + ' material-icons';
+        itemPromote.textContent = 'keyboard_arrow_up';
+        const itemDemote = document.createElement('button');
+        itemDemote.className = LayerItemDemote + ' material-icons';
+        itemDemote.textContent = 'keyboard_arrow_down';
+
         const itemContainer = document.createElement('div');
         itemContainer.className = LayerItemClasName;
         if (!layer.visible) {
@@ -253,6 +262,8 @@
         itemContainer.setAttribute('data-layer-id', layer.id);
         itemContainer.appendChild(itemHideToggle);
         itemContainer.appendChild(itemLabel);
+        itemContainer.appendChild(itemDemote);
+        itemContainer.appendChild(itemPromote);
 
         container.appendChild(itemContainer);
       });
