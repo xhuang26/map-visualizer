@@ -102,6 +102,12 @@ html, body {
 
 #map > .ol-viewport .layer-list__item > * {
   margin: 0 5px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+#map > .ol-viewport .layer-list__item__label {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 #map > .ol-viewport .layer-list__item button {
