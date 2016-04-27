@@ -388,6 +388,7 @@
     itemOpacityToggle.className = `${this.CssClasses_.ItemAction_Opacity} material-icons`;
     itemOpacityToggle.title = 'Toggle opacity slider';
     itemOpacityToggle.textContent = 'opacity';
+    itemOpacityToggle.style.opacity = layer.opacity;
 
     const itemRowMain = document.createElement('div');
     itemRowMain.className = this.CssClasses_.ItemRow;
@@ -407,10 +408,11 @@
     itemRowOpacityInput.max = 100;
     itemRowOpacityInput.min = 1;
     itemRowOpacityInput.step = 1;
+    itemRowOpacityInput.value = Math.floor(layer.opacity * 100);
     
     const itemRowOpacityValueLabel = document.createElement('label');
     itemRowOpacityValueLabel.className = `${this.CssClasses_.ItemRow}__value-label`;
-    itemRowOpacityValueLabel.textContent = '';
+    itemRowOpacityValueLabel.textContent = `${itemRowOpacityInput.value}%`;
     
     const itemRowOpacity = document.createElement('div');
     itemRowOpacity.className = `${this.CssClasses_.ItemRow} row-opacity`;
