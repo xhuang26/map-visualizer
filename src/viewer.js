@@ -167,15 +167,15 @@
     layerListContainer.appendChild(layerListBody);
 
     // Internal data structure storing layers.
-    const layers = [];
+    const internalLayers = [];
 
     const sortLayers = function (layers) {
       layers.sort((a, b) => {
         return (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
       });
-    }.bind(this, layers);
+    }.bind(this);
 
-    this.reload = function (internalLayers, layerConfigs, extraLayerConfigs) {
+    this.reload = function (layerConfigs, extraLayerConfigs) {
       // Reset.
       const container = layerListBody;
       while (container.lastChild) {
@@ -207,9 +207,7 @@
         internalLayers.push(newLayer);
       });
 
-      console.info('internalLayers', internalLayers);
-      sortLayers();
-      console.info('sorted internalLayers', internalLayers);
+      sortLayers(internalLayers);
 
       // Build DOM.
       internalLayers.forEach((layer) => {
@@ -221,9 +219,9 @@
         container.appendChild(itemContainer);
       });
 
-    }.bind(this, layers);
+    }.bind(this);
 
-    this.update = function (internalLayers, extraLayerConfigs) {
+    this.update = function (extraLayerConfigs) {
       //console.warn('this.getMap()', this.getMap());
 
       // Update internal layers.
@@ -240,11 +238,11 @@
         }
       });
 
-      sortLayers();
+      sortLayers(internalLayers);
 
       //! Update DOM.
 
-    }.bind(this, layers);
+    }.bind(this);
 
     const handleToggleLayerList = function () {
       const viewportElement = this.getMap().getViewport();
