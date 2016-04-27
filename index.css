@@ -16,9 +16,29 @@ html, body {
   background-color: rgba(33, 33, 33, 0.8);
 }
 
-#map .ol-control.layer-list {
-  top: 0.5em;
-  left: 0.5em;
+#map .layer-list {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: right;  /* Make .layer-list__container right-aligned. */
+}
+
+#map .layer-list .layer-list__toggle.ol-control {
+  top: 0;
+  left: 100%;
+  margin-top: 0.5em;
+  margin-left: 0.5em;
+}
+
+#map .layer-list .layer-list__container {
+  width: 400px;
+  height: 100%;
+  overflow: auto;
+  background-color: white;
+  color: black;
+  text-align: initial; /* Reset text-align. */
 }
 
 #map .ol-control.ol-zoom {
