@@ -36,6 +36,18 @@
   };
 
   /**
+   * @param {Object} map
+   */
+  const setHashValue = (map) => {
+    const parse = parseHash(location.hash);
+    for (let key of Object.keys(map)) {
+      parse[key] = map[key];
+    }
+    const hash = buildHash(parse);
+    location.hash = hash;
+  };
+
+  /**
    * @param {*} value
    * @returns {Boolean}
    */
