@@ -203,6 +203,10 @@
     $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
     $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
     
+    this.boundToggleOpacityControlHandler_ = this.toggleOpacityControlHandler_.bind(this);
+    $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Opacity}`, this.boundToggleOpacityControlHandler_);
+    $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Opacity}`, this.boundToggleOpacityControlHandler_);
+    
     this.boundChangeLayerOpacityHandler_ = this.changeLayerOpacityHandler_.bind(this);
     $(this.layerListBody_).on('change', `.${this.CssClasses_.ItemRow}.row-opacity .${this.CssClasses_.ItemRow}__input`, this.boundChangeLayerOpacityHandler_);
 
@@ -223,6 +227,7 @@
   ol.inherits(LayerListControl, ol.control.Control);
   LayerListControl.prototype.CssClasses_ = {
     "ListExpanded": "layer-list--expanded",
+    "OpacityControlExpanded": "layer-list__item--opacity-control-expanded",
     "ItemRow": "layer-list__item-row",
     "Item": "layer-list__item",
     "Item_Hidden": "layer-list__item--hidden",
@@ -332,6 +337,16 @@
     setHashValue({
       "config": configString
     });
+  };
+  LayerListControl.prototype.toggleOpacityControlHandler_ = function (event) {
+    const button = event.currentTarget;
+    const rowElement = button.parentElement;
+    const layerElement = rowElement.parentElement;
+    if (layerElement.classList.contains(this.CssClasses_.OpacityControlExpanded)) {
+      layerElement.classList.remove(this.CssClasses_.OpacityControlExpanded);
+    } else {
+      layerElement.classList.add(this.CssClasses_.OpacityControlExpanded);
+    }
   };
   LayerListControl.prototype.changeLayerOpacityHandler_ = function (event) {
     const input = event.currentTarget;
