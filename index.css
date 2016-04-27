@@ -29,7 +29,7 @@ html, body {
   transition: width 200ms ease;
 }
 #map > .ol-viewport.layer-list--expanded .layer-list {
-  width: 400px;
+  width: 300px;
 }
 
 #map > .ol-viewport .layer-list__toggle.ol-control {
@@ -51,7 +51,7 @@ html, body {
   position: absolute;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 300px;
   height: 100%;
   overflow: hidden;
   background-color: white;
