@@ -79,14 +79,13 @@
   };
 
   /**
-   * @param {Object} layerConfigs
+   * @param {Array.<Object>} layerConfigs
    * @returns {String}
    */
   const buildLayerConfigString = (layerConfigs) => {
     const segments = [];
-    for (let layerId of Object.keys(layerConfigs)) {
-      const layerConfig = layerConfigs[layerId];
-      segments.push(`${layerId}:${layerConfig.zIndex},${layerConfig.visible},${layerConfig.opacity}`);
+    for (let config of layerConfigs) {
+      segments.push(`${config.id}:${config.zIndex},${config.visible},${config.opacity}`);
     }
     return segments.join('|');
   };
@@ -163,6 +162,14 @@
   const LayerListControl = function (opt_options) {
     const options = opt_options || {};
 
+    // Internal data structure storing layers.
+    const internalLayers = [],
+          internalLayerMap = new Map();
+    const compareLayerOrder = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
+    const sortLayers = function (layers) {
+      layers.sort(compareLayerOrder);
+    }.bind(this);
+
     const button = document.createElement('button');
     button.className = 'material-icons';
     button.textContent = 'layers';
@@ -179,7 +186,17 @@
     layerListBody.className = 'layer-list__body';
 
     const handleToggleLayerVisibility = function (event) {
-      console.log(event.currentTarget);
+      const button = event.currentTarget;
+      const layerRowElement = button.parentElement;
+      const layerId = layerRowElement.getAttribute('data-layer-id');
+      const layer = internalLayerMap.get(layerId);
+      layer.visible = !layer.visible;
+
+      // Update hash.
+      const configString = buildLayerConfigString(internalLayers);
+      setHashValue({
+        "config": configString
+      });
     }.bind(this);
 
     $(layerListBody).on('click', '.' + LayerItemHideToggle, handleToggleLayerVisibility);
@@ -189,15 +206,6 @@
     layerListContainer.className = 'layer-list__container';
     layerListContainer.appendChild(layerListTitle);
     layerListContainer.appendChild(layerListBody);
-
-    // Internal data structure storing layers.
-    const internalLayers = [],
-          internalLayerMap = new Map();
-
-    const compareLayerOrder = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
-    const sortLayers = function (layers) {
-      layers.sort(compareLayerOrder);
-    }.bind(this);
 
     this.reload = function (layerConfigs, extraLayerConfigs) {
       // Reset.
