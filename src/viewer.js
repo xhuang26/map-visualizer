@@ -387,11 +387,10 @@
     
     const itemRowOpacityValueLabel = document.createElement('label');
     itemRowOpacityValueLabel.className = `${this.CssClasses_.ItemRow}__value-label`;
-    itemRowOpacityLabel.textContent = '';
+    itemRowOpacityValueLabel.textContent = '';
     
     const itemRowOpacity = document.createElement('div');
     itemRowOpacity.className = `${this.CssClasses_.ItemRow} row-opacity`;
-    itemRowOpacity.textContent = 'Put a slider here.';
     itemRowOpacity.appendChild(itemRowOpacityLabel);
     itemRowOpacity.appendChild(itemRowOpacityInput);
     itemRowOpacity.appendChild(itemRowOpacityValueLabel);
