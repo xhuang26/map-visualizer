@@ -207,6 +207,7 @@
       target: options.target
     });
   };
+  ol.inherits(LayerListControl, ol.control.Control);
   LayerListControl.prototype.CssClasses_ = {
     "ListExpanded": "layer-list--expanded",
     "Item": "layer-list__item",
@@ -369,8 +370,6 @@
       }
     });
   };
-  ol.inherits(LayerListControl, ol.control.Control);
-
   const layerListControl = new LayerListControl();
 
   // Start map loading.
