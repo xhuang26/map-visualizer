@@ -176,44 +176,37 @@
       layers.sort(compareLayerOrder);
     }.bind(this);
 
+    // The actual button to toggle the layer list.
     const button = document.createElement('button');
     button.className = 'material-icons';
     button.title = 'Toggle layer list';
     button.textContent = 'layers';
 
+    // Wrap around the button to make it look like a control.
     const fakeControl = document.createElement('div');
     fakeControl.className = 'layer-list__toggle ol-control';
     fakeControl.appendChild(button);
 
+    // Title of the layer list panel.
     const layerListTitle = document.createElement('label');
     layerListTitle.className = 'layer-list__title';
     layerListTitle.textContent = 'Layers';
 
+    // Body of the layer list panel.
     const layerListBody = document.createElement('div');
     layerListBody.className = 'layer-list__body';
 
-    const handleToggleLayerVisibility = function (event) {
-      const button = event.currentTarget;
-      const layerRowElement = button.parentElement;
-      const layerId = layerRowElement.getAttribute('data-layer-id');
-      const layer = internalLayerMap.get(layerId);
-      layer.visible = !layer.visible;
-
-      // Update hash.
-      const configString = buildLayerConfigString(internalLayers);
-      setHashValue({
-        "config": configString
-      });
-    }.bind(this);
-
-    $(layerListBody).on('click', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
-    $(layerListBody).on('touchstart', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
-
+    // The entire panel that slides in/out.
     const layerListContainer = document.createElement('div');
     layerListContainer.className = 'layer-list__container';
     layerListContainer.appendChild(layerListTitle);
     layerListContainer.appendChild(layerListBody);
 
+    /**
+     * Reload everything in the list from the provided layer configs and extra configs.
+     * @param {Array.<Object>} layerConfigs
+     * @param {Object} extraLayerConfigs
+     */
     this.reload = function (layerConfigs, extraLayerConfigs) {
       // Reset.
       const container = layerListBody;
@@ -288,6 +281,10 @@
 
     }.bind(this);
 
+    /**
+     * Update the list with the provided extra configs.
+     * @param {Object} extraLayerConfigs
+     */
     this.update = function (extraLayerConfigs) {
       const container = layerListBody;
 
@@ -307,29 +304,51 @@
 
       sortLayers(internalLayers);
 
+      //! Implement this.
+      const orderChanged = true;
       // Update DOM.
-      $(container).append(
-        $(container).children(`.${LayerItemClasName}`)
-        .detach()
-        .sort((a, b) => {
-          const layerIdA = a.getAttribute('data-layer-id'),
-                layerIdB = b.getAttribute('data-layer-id');
-          const layerA = internalLayerMap.get(layerIdA),
-                layerB = internalLayerMap.get(layerIdB);
-          return compareLayerOrder(layerA, layerB);
-        })
-        .each(function () {
-          const layerId = this.getAttribute('data-layer-id');
-          const layer = internalLayerMap.get(layerId);
-          if (!layer.visible) {
-            this.classList.add(LayerItemHiddenFlag);
-          } else {
-            this.classList.remove(LayerItemHiddenFlag);
-          }
-        })
-      );
+      const $listItems = $(container).children(`.${LayerItemClasName}`);
+      // Only re-order the list elements when necessary.
+      if (orderChanged) {
+        $(container).append(
+            $listItems.detach().sort((a, b) => {
+              const layerIdA = a.getAttribute('data-layer-id'),
+                    layerIdB = b.getAttribute('data-layer-id');
+              const layerA = internalLayerMap.get(layerIdA),
+                    layerB = internalLayerMap.get(layerIdB);
+              return compareLayerOrder(layerA, layerB);
+            })
+        );
+      }
+      // Update each item.
+      $listItems.each(function () {
+        const layerId = this.getAttribute('data-layer-id');
+        const layer = internalLayerMap.get(layerId);
+        if (!layer.visible) {
+          this.classList.add(LayerItemHiddenFlag);
+        } else {
+          this.classList.remove(LayerItemHiddenFlag);
+        }
+      });
 
     }.bind(this);
+
+    const handleToggleLayerVisibility = function (event) {
+      const button = event.currentTarget;
+      const layerRowElement = button.parentElement;
+      const layerId = layerRowElement.getAttribute('data-layer-id');
+      const layer = internalLayerMap.get(layerId);
+      layer.visible = !layer.visible;
+
+      // Update hash.
+      const configString = buildLayerConfigString(internalLayers);
+      setHashValue({
+        "config": configString
+      });
+    }.bind(this);
+
+    $(layerListBody).on('click', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
+    $(layerListBody).on('touchstart', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
 
     const handleToggleLayerList = function () {
       const viewportElement = this.getMap().getViewport();
