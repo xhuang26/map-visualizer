@@ -32,7 +32,7 @@ html, body {
   width: 400px;
 }
 
-#map > .ol-viewport .layer-list .layer-list__toggle.ol-control {
+#map > .ol-viewport .layer-list__toggle.ol-control {
   top: 0;
   left: 100%;
   margin-top: 0.5em;
@@ -43,11 +43,11 @@ html, body {
   -o-transition: margin-left 200ms ease;
   transition: margin-left 200ms ease;
 }
-#map > .ol-viewport.layer-list--expanded .layer-list .layer-list__toggle.ol-control {
+#map > .ol-viewport.layer-list--expanded .layer-list__toggle.ol-control {
   margin-left: -2.5em;
 }
 
-#map > .ol-viewport .layer-list .layer-list__container {
+#map > .ol-viewport .layer-list__container {
   position: absolute;
   top: 0;
   right: 0;
@@ -56,6 +56,31 @@ html, body {
   overflow: auto;
   background-color: white;
   color: black;
+  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+#map > .ol-viewport .layer-list__title {
+  display: block;
+  width: auto;
+  height: auto;
+  padding: 10px 40px;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.27);
+  font-size: 24px;
+  
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+#map > .ol-viewport .layer-list__body {
+  background-color: red;
+  
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 #map > .ol-viewport .ol-control.ol-zoom {
