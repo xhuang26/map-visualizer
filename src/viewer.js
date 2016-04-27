@@ -157,7 +157,7 @@
     button.addEventListener('touchstart', handleRotateNorth, false);
 
     const element = document.createElement('div');
-    element.className = 'rotate-north ol-unselectable ol-control';
+    element.className = 'layer-list ol-unselectable ol-control';
     element.appendChild(button);
 
     ol.control.Control.call(this, {
