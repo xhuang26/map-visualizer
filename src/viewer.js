@@ -166,13 +166,82 @@
     layerListContainer.appendChild(layerListTitle);
     layerListContainer.appendChild(layerListBody);
 
-    this.reload = function (layerConfigs, extra) {
-      console.warn('this.getMap()', this.getMap());
-    }.bind(this);
+    // Internal data structure storing layers.
+    const layers = [];
 
-    this.update = function (extra) {
+    const sortLayers = function (layers) {
+      layers.sort((a, b) => {
+        return (a.zIndex < b.zIndex) ? -1 : (a.index - b.index);
+      });
+    }.bind(this, layers);
+
+    this.reload = function (internalLayers, layerConfigs, extraLayerConfigs) {
+      // Reset.
+      while (layerListContainer.lastChild) {
+        layerListContainer.removeChild(layerListContainer.lastChild);
+      }
+      internalLayers = [];
+
+      // Load layers into internal data structure.
+      layerConfigs.forEach((config, index) => {
+        const layerId = config.id;
+        const newLayer = {
+          "index": index,
+          "id": layerId,
+          "title": config.title,
+          "zIndex": config.zIndex,
+          "visible": config.visible,
+          "opacity": config.opacity
+        };
+
+        if (extraLayerConfigs.hasOwnProperty(layerId)) {
+          const extraConfig = extraLayerConfigs[layerId];
+          for (let propName of ['zIndex', 'visible', 'opacity']) {
+            if (extraConfig.hasOwnProperty(propName)) {
+              newLayer[propName] = extraConfig[propName];
+            }
+          }
+        }
+
+        internalLayers.push(newLayer);
+      });
+
+      sortLayers();
+
+      // Build DOM.
+      internalLayers.forEach((layer) => {
+        const itemContainer = document.createElement('div');
+        itemContainer.className = 'layer-list__item';
+        itemContainer.setAttribute('data-layer-id', layer.id);
+        itemContainer.textContent = layer.title;
+
+        layerListContainer.appendChild(itemContainer);
+      });
+
+    }.bind(this, layers);
+
+    this.update = function (internalLayers, extraLayerConfigs) {
       //console.warn('this.getMap()', this.getMap());
-    }.bind(this);
+
+      // Update internal layers.
+      internalLayers.forEach((layer) => {
+        const layerId = layer.id;
+
+        if (extraLayerConfigs.hasOwnProperty(layerId)) {
+          const extraConfig = extraLayerConfigs[layerId];
+          for (let propName of ['zIndex', 'visible', 'opacity']) {
+            if (extraConfig.hasOwnProperty(propName)) {
+              layer[propName] = extraConfig[propName];
+            }
+          }
+        }
+      });
+
+      sortLayers();
+
+      //! Update DOM.
+
+    }.bind(this, layers);
 
     const handleToggleLayerList = function () {
       const viewportElement = this.getMap().getViewport();
@@ -245,10 +314,10 @@
       // Source Url didn't change.
       console.warn('Updating...');
       // Update layers.
-      updateLayers.call(mainLayerCollection, extra);
+      updateLayers.call(mainLayerCollection, extra.layerConfigs);
       //! Update map view extent.
 
-      layerListControl.update(extra);
+      layerListControl.update(extra.layerConfigs);
 
       console.log('Updated');
       busy = false;
@@ -282,10 +351,10 @@
           // Load layers.
           loadLayers.call(mainLayerCollection, data.layers);
           // Update layers.
-          updateLayers.call(mainLayerCollection, extra);
+          updateLayers.call(mainLayerCollection, extra.layerConfigs);
           //! Update map view extent.
 
-          layerListControl.reload(data.layers, extra);
+          layerListControl.reload(data.layers, extra.layerConfigs);
 
           loaded = true;
           loadedSourceUrl = sourceUrl;
@@ -368,11 +437,11 @@
     }
   };
 
-  const updateLayers = function (extra) {
+  const updateLayers = function (extraLayerConfigs) {
     this.forEach((layer) => {
       const layerId = layer.get('id');
-      if (extra.layerConfigs.hasOwnProperty(layerId)) {
-        const extraConfig = extra.layerConfigs[layerId];
+      if (extraLayerConfigs.hasOwnProperty(layerId)) {
+        const extraConfig = extraLayerConfigs[layerId];
         if (extraConfig.hasOwnProperty('zIndex')) {
           layer.setZIndex(extraConfig.zIndex);
         }
