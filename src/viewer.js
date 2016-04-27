@@ -85,7 +85,7 @@
   const buildLayerConfigString = (layerConfigs) => {
     const segments = [];
     for (let config of layerConfigs) {
-      segments.push(`${config.id}:${config.zIndex},${config.visible},${config.opacity}`);
+      segments.push(`${config.id}:${config.zIndex},${Number(config.visible)},${config.opacity}`);
     }
     return segments.join('|');
   };
