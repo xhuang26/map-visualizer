@@ -537,18 +537,20 @@
     const this_ = this;
     $listItems.each(function () {
       // `this` is the element.
-      const layerId = this.getAttribute('data-layer-id');
+      const layerRowElement = this;
+      
+      const layerId = layerRowElement.getAttribute('data-layer-id');
       const layer = this_.layerMap_.get(layerId);
       
       if (!layer.visible) {
-        this.classList.add(this_.CssClasses_.Item_Hidden);
+        layerRowElement.classList.add(this_.CssClasses_.Item_Hidden);
       } else {
-        this.classList.remove(this_.CssClasses_.Item_Hidden);
+        layerRowElement.classList.remove(this_.CssClasses_.Item_Hidden);
       }
       
-      const opacityRow = this.querySelector(`.${this.CssClasses_.ItemRow}.row-opacity`);
-      const opacityInput = opacityRow.querySelector(`.${this.CssClasses_.ItemRow}__input`);
-      const opacityValueLabel = opacityRow.querySelector(`.${this.CssClasses_.ItemRow}__value-label`);
+      const opacityRow = layerRowElement.querySelector(`.${this_.CssClasses_.ItemRow}.row-opacity`);
+      const opacityInput = opacityRow.querySelector(`.${this_.CssClasses_.ItemRow}__input`);
+      const opacityValueLabel = opacityRow.querySelector(`.${this_.CssClasses_.ItemRow}__value-label`);
       const opacityInputValue = Math.floor(layer.opacity * 100);
       if (opacityInput.value !== opacityInputValue) {
         opacityInput.value = opacityInputValue;
