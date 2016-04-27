@@ -135,6 +135,15 @@ html, body {
   visibility: visible;
 }
 
+#map > .ol-viewport .layer-list__item .layer-list__item__action-demote,
+#map > .ol-viewport .layer-list__item .layer-list__item__action-promote {
+  visibility: hidden;
+}
+#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-demote,
+#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-promote, {
+  visibility: visible;
+}
+
 #map > .ol-viewport .ol-control.ol-zoom {
   top: 3em;
   left: 0.5em;
