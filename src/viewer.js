@@ -179,7 +179,7 @@
     layerListBody.className = 'layer-list__body';
 
     const handleToggleLayerVisibility = function (event) {
-      console.log(event.target);
+      console.log(event.currentTarget);
     }.bind(this);
 
     $(layerListBody).on('click', '.' + LayerItemHideToggle, handleToggleLayerVisibility);
