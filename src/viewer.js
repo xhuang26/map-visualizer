@@ -255,7 +255,7 @@
     const layerRowElement = button.parentElement;
     const layerId = layerRowElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
-    const layerIndex = -1;
+    let layerIndex = -1;
     this.layers_.forEach((layer, index, layers) => {
       if (layer === thisLayer) {
         layerIndex = index;
