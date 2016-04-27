@@ -224,7 +224,7 @@
     }.bind(this);
 
     this.update = function (extraLayerConfigs) {
-      //console.warn('this.getMap()', this.getMap());
+      const container = layerListBody;
 
       // Update internal layers.
       internalLayers.forEach((layer) => {
