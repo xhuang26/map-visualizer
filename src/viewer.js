@@ -207,7 +207,9 @@
         internalLayers.push(newLayer);
       });
 
+      console.info('internalLayers', internalLayers);
       sortLayers();
+      console.info('sorted internalLayers', internalLayers);
 
       // Build DOM.
       internalLayers.forEach((layer) => {
