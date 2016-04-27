@@ -166,7 +166,15 @@
     layerListContainer.appendChild(layerListTitle);
     layerListContainer.appendChild(layerListBody);
 
-    const handleToggleLayerList = function() {
+    this.reload = function (layerConfigs, extra) {
+      console.warn('this.getMap()', this.getMap());
+    }.bind(this);
+
+    this.update = function (extra) {
+      //console.warn('this.getMap()', this.getMap());
+    }.bind(this);
+
+    const handleToggleLayerList = function () {
       const viewportElement = this.getMap().getViewport();
       if (viewportElement.classList.contains(LayerListExpandedFlag)) {
         viewportElement.classList.remove(LayerListExpandedFlag);
@@ -188,18 +196,16 @@
       element: element,
       target: options.target
     });
-
-    console.warn('this.getMap()', this.getMap());
-    //const mainLayerGroup = this.getMap().getLayerGroup();
-    //const mainLayerCollection = mainLayerGroup.getLayers();
   };
   ol.inherits(LayerListControl, ol.control.Control);
+
+  const layerListControl = new LayerListControl();
 
   // Start map loading.
   const map = new ol.Map({
     target: $mapContainer[0],
     controls: ol.control.defaults().extend([
-      new LayerListControl()
+      layerListControl
     ]),
     view: new ol.View({
       center: [0, 0],
@@ -241,6 +247,9 @@
       // Update layers.
       updateLayers.call(mainLayerCollection, extra);
       //! Update map view extent.
+
+      layerListControl.update(extra);
+
       console.log('Updated');
       busy = false;
     } else {
@@ -275,6 +284,9 @@
           // Update layers.
           updateLayers.call(mainLayerCollection, extra);
           //! Update map view extent.
+
+          layerListControl.reload(data.layers, extra);
+
           loaded = true;
           loadedSourceUrl = sourceUrl;
           console.log('Loaded');
