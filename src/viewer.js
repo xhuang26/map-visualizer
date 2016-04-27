@@ -227,8 +227,13 @@
 
       // Build DOM.
       internalLayers.forEach((layer) => {
-        const itemVisibilityToggle = document.createElement('label');
-        itemVisibilityToggle.className = LayerItemClasName + '__visibility-toggle material-icons';
+        const itemShowButton = document.createElement('button');
+        itemShowButton.className = LayerItemClasName + '__action-show material-icons';
+        itemShowButton.textContent = 'visibility';
+
+        const itemHideButton = document.createElement('button');
+        itemHideButton.className = LayerItemClasName + '__action-hide material-icons';
+        itemHideButton.textContent = 'visibility_off';
 
         const itemLabel = document.createElement('label');
         itemLabel.className = LayerItemClasName + '__label';
@@ -242,7 +247,8 @@
           itemContainer.classList.remove(LayerItemHiddenFlag);
         }
         itemContainer.setAttribute('data-layer-id', layer.id);
-        itemContainer.appendChild(itemVisibilityToggle);
+        itemContainer.appendChild(itemShowButton);
+        itemContainer.appendChild(itemHideButton);
         itemContainer.appendChild(itemLabel);
 
         container.appendChild(itemContainer);
