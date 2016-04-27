@@ -333,6 +333,45 @@
     });
   };
   /**
+   * Creates an element representing a layer.
+   * @param {Object} layer
+   * @returns {HTMLElement}
+   */
+  LayerListControl.prototype.createLayerItemRowElement_ = function (layer) {
+    const itemHideToggle = document.createElement('button');
+    itemHideToggle.className = `${this.CssClasses_.ItemAction_Hide} material-icons`;
+    itemHideToggle.title = 'Toggle layer visibility';
+    itemHideToggle.textContent = 'visibility_off';
+
+    const itemLabel = document.createElement('label');
+    itemLabel.className = `${this.CssClasses_.Item}__label`;
+    itemLabel.textContent = layer.title;
+
+    const itemPromote = document.createElement('button');
+    itemPromote.className = `${this.CssClasses_.ItemAction_Promote} material-icons`;
+    itemPromote.title = 'Bring layer forward';
+    itemPromote.textContent = 'keyboard_arrow_up';
+    const itemDemote = document.createElement('button');
+    itemDemote.className = `${this.CssClasses_.ItemAction_Demote} material-icons`;
+    itemDemote.title = 'Send layer backward';
+    itemDemote.textContent = 'keyboard_arrow_down';
+
+    const itemContainer = document.createElement('div');
+    itemContainer.className = this.CssClasses_.Item;
+    if (!layer.visible) {
+      itemContainer.classList.add(this.CssClasses_.Item_Hidden);
+    } else {
+      itemContainer.classList.remove(this.CssClasses_.Item_Hidden);
+    }
+    itemContainer.setAttribute('data-layer-id', layer.id);
+    itemContainer.appendChild(itemHideToggle);
+    itemContainer.appendChild(itemLabel);
+    itemContainer.appendChild(itemDemote);
+    itemContainer.appendChild(itemPromote);
+
+    return itemContainer;
+  };
+  /**
    * Reload everything in the list from the provided layer configs and extra configs.
    * @param {Array.<Object>} layerConfigs
    * @param {Object} extraLayerConfigs
@@ -376,40 +415,8 @@
 
     // Build DOM.
     this.layers_.forEach((layer) => {
-      const itemHideToggle = document.createElement('button');
-      itemHideToggle.className = `${this.CssClasses_.ItemAction_Hide} material-icons`;
-      itemHideToggle.title = 'Toggle layer visibility';
-      itemHideToggle.textContent = 'visibility_off';
-
-      const itemLabel = document.createElement('label');
-      itemLabel.className = `${this.CssClasses_.Item}__label`;
-      itemLabel.textContent = layer.title;
-
-      const itemPromote = document.createElement('button');
-      itemPromote.className = `${this.CssClasses_.ItemAction_Promote} material-icons`;
-      itemPromote.title = 'Bring layer forward';
-      itemPromote.textContent = 'keyboard_arrow_up';
-      const itemDemote = document.createElement('button');
-      itemDemote.className = `${this.CssClasses_.ItemAction_Demote} material-icons`;
-      itemDemote.title = 'Send layer backward';
-      itemDemote.textContent = 'keyboard_arrow_down';
-
-      const itemContainer = document.createElement('div');
-      itemContainer.className = this.CssClasses_.Item;
-      if (!layer.visible) {
-        itemContainer.classList.add(this.CssClasses_.Item_Hidden);
-      } else {
-        itemContainer.classList.remove(this.CssClasses_.Item_Hidden);
-      }
-      itemContainer.setAttribute('data-layer-id', layer.id);
-      itemContainer.appendChild(itemHideToggle);
-      itemContainer.appendChild(itemLabel);
-      itemContainer.appendChild(itemDemote);
-      itemContainer.appendChild(itemPromote);
-
-      container.appendChild(itemContainer);
+      container.appendChild(this.createLayerItemRowElement_(layer));
     });
-
   };
   /**
    * Update the list with the provided extra configs.
