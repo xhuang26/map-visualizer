@@ -250,7 +250,7 @@
     });
   };
   LayerListControl.prototype.promoteLayerHandler_ = function (event) {
-    // Get this layer.
+    // Find this layer.
     const button = event.currentTarget;
     const layerRowElement = button.parentElement;
     const layerId = layerRowElement.getAttribute('data-layer-id');
@@ -272,9 +272,7 @@
     }
 
     // Update zIndex of layers with their index in list (since the list is sorted).
-    this.layers_.forEach((layer, index, layers) => {
-      layer.zIndex = (layers.length - 1) - index;
-    });
+    this.reIndex_();
     
     // Swap zIndex between this layer and its upper layer (if present).
     const upperLayer = this.layers_[layerIndex - 1];
@@ -289,7 +287,50 @@
     });
   };
   LayerListControl.prototype.demoteLayerHandler_ = function (event) {
-    //!
+    // Find this layer.
+    const button = event.currentTarget;
+    const layerRowElement = button.parentElement;
+    const layerId = layerRowElement.getAttribute('data-layer-id');
+    const thisLayer = this.layerMap_.get(layerId);
+    let layerIndex = -1;
+    this.layers_.forEach((layer, index, layers) => {
+      if (layer === thisLayer) {
+        layerIndex = index;
+      }
+    });
+    
+    // Range check.
+    if (layerIndex < 0 || layerIndex >= this.layers_.length) {
+      throw new RangeError('Unexpected layer index.');
+    }
+    if (layerIndex === this.layers_.length - 1) {
+      console.warn('Can not demote bottom most layer.');
+      return;
+    }
+
+    // Update zIndex of layers with their index in list (since the list is sorted).
+    this.reIndex_();
+    
+    // Swap zIndex between this layer and its lower layer (if present).
+    const lowerLayer = this.layers_[layerIndex + 1];
+    // Since the updated zIndex values are continuous, swapping could be done this way.
+    lowerLayer.zIndex++;
+    thisLayer.zIndex--;
+  
+    // Update hash.
+    const configString = buildLayerConfigString(this.layers_);
+    setHashValue({
+      "config": configString
+    });
+  };
+  /**
+   * Re-assign zIndex values to layers according to their position in list.
+   * The result zIndex values are guaranteed to be continuous.
+   */
+  LayerListControl.prototype.reIndex_ = function () {
+    this.layers_.forEach((layer, index, layers) => {
+      layer.zIndex = (layers.length - 1) - index;
+    });
   };
   /**
    * Reload everything in the list from the provided layer configs and extra configs.
