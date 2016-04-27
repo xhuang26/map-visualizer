@@ -338,8 +338,18 @@
     const layerElement = rowElement.parentElement;
     const layerId = layerElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
+    // @range [1, 100]
     const inputValue = input.value;
-    console.log('inputValue', inputValue);
+    const opacityValue = inputValue * 0.01;
+    
+    valueLabel.textContent = `${inputValue}%`;
+    thisLayer.opacity = opacityValue;
+    
+    // Update hash.
+    const configString = buildLayerConfigString(this.layers_);
+    setHashValue({
+      "config": configString
+    });
   };
   /**
    * Re-assign zIndex values to layers according to their position in list.
