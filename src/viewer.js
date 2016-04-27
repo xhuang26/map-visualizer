@@ -225,10 +225,14 @@
 
       // Build DOM.
       internalLayers.forEach((layer) => {
+        const itemLabel = document.createElement('label');
+        itemLabel.className = 'layer-list__item__label';
+        itemLabel.textContent = layer.title;
+
         const itemContainer = document.createElement('div');
         itemContainer.className = 'layer-list__item';
         itemContainer.setAttribute('data-layer-id', layer.id);
-        itemContainer.textContent = layer.title;
+        itemContainer.appendChild(itemLabel);
 
         container.appendChild(itemContainer);
       });
