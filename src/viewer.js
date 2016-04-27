@@ -181,7 +181,7 @@
       while (container.lastChild) {
         container.removeChild(container.lastChild);
       }
-      internalLayers = [];
+      internalLayers.length = 0;
 
       // Load layers into internal data structure.
       layerConfigs.forEach((config, index) => {
