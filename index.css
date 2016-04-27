@@ -37,6 +37,14 @@ html, body {
   left: 100%;
   margin-top: 0.5em;
   margin-left: 0.5em;
+  -webkit-transition: margin-left 200ms ease;
+  -moz-transition: margin-left 200ms ease;
+  -ms-transition: margin-left 200ms ease;
+  -o-transition: margin-left 200ms ease;
+  transition: margin-left 200ms ease;
+}
+#map > .ol-viewport.layer-list--expanded .layer-list .layer-list__toggle.ol-control {
+  margin-left: -2.5em;
 }
 
 #map > .ol-viewport .layer-list .layer-list__container {
