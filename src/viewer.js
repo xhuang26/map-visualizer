@@ -360,13 +360,15 @@
       );
     }
     // Update each item.
+    const this_ = this;
     $listItems.each(function () {
+      // `this` is the element.
       const layerId = this.getAttribute('data-layer-id');
-      const layer = this.layerMap_.get(layerId);
+      const layer = this_.layerMap_.get(layerId);
       if (!layer.visible) {
-        this.classList.add(this.CssClasses_.Item_Hidden);
+        this.classList.add(this_.CssClasses_.Item_Hidden);
       } else {
-        this.classList.remove(this.CssClasses_.Item_Hidden);
+        this.classList.remove(this_.CssClasses_.Item_Hidden);
       }
     });
   };
