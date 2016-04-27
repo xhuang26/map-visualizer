@@ -374,9 +374,27 @@
     itemRowMain.appendChild(itemPromote);
     itemRowMain.appendChild(itemOpacityToggle);
     
+    const itemRowOpacityLabel = document.createElement('label');
+    itemRowOpacityLabel.className = `${this.CssClasses_.ItemRow}__label`;
+    itemRowOpacityLabel.textContent = 'Opacity';
+    
+    const itemRowOpacityInput = document.createElement('input');
+    itemRowOpacityInput.className = `${this.CssClasses_.ItemRow}__input`;
+    itemRowOpacityInput.type = 'range';
+    itemRowOpacityInput.max = 100;
+    itemRowOpacityInput.min = 1;
+    itemRowOpacityInput.step = 1;
+    
+    const itemRowOpacityValueLabel = document.createElement('label');
+    itemRowOpacityValueLabel.className = `${this.CssClasses_.ItemRow}__value-label`;
+    itemRowOpacityLabel.textContent = '';
+    
     const itemRowOpacity = document.createElement('div');
     itemRowOpacity.className = `${this.CssClasses_.ItemRow} row-opacity`;
     itemRowOpacity.textContent = 'Put a slider here.';
+    itemRowOpacity.appendChild(itemRowOpacityLabel);
+    itemRowOpacity.appendChild(itemRowOpacityInput);
+    itemRowOpacity.appendChild(itemRowOpacityValueLabel);
 
     const itemContainer = document.createElement('div');
     itemContainer.className = this.CssClasses_.Item;
