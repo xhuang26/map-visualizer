@@ -1,6 +1,12 @@
 (function () {
   'use strict';
 
+  const UrlSymbals = {
+    "SemiColon": '_-_',
+    "Colon": '___',
+    "Comma": '_'
+  };
+
   /**
    * @param {String} hash
    * @returns {Object}
@@ -62,11 +68,11 @@
   const parseLayerConfig = (configString) => {
     const layerConfigs = {};
     if (configString.length > 0) {
-      configString.split('|').forEach((segment) => {
-        const delimiterIndex = segment.indexOf(':');
+      configString.split(UrlSymbals.SemiColon).forEach((segment) => {
+        const delimiterIndex = segment.indexOf(UrlSymbals.Colon);
         if (delimiterIndex > 0) {
           const layerId = segment.substring(0, delimiterIndex),
-                layerProps = segment.substring(delimiterIndex + 1).split(',').map((value) => value.trim());
+                layerProps = segment.substring(delimiterIndex + UrlSymbals.Colon.length).split(UrlSymbals.Comma).map((value) => value.trim());
           layerConfigs[layerId] = {
             zIndex: isValidConfigValue(layerProps[0]) ? Number(layerProps[0]) : 0,
             visible: isValidConfigValue(layerProps[1]) ? Boolean(Number(layerProps[1])) : true,
@@ -87,7 +93,7 @@
     for (let config of layerConfigs) {
       segments.push(`${config.id}:${config.zIndex},${Number(config.visible)},${config.opacity}`);
     }
-    return segments.join('|');
+    return segments.join(UrlSymbals.SemiColon);
   };
 
   /**
@@ -95,7 +101,7 @@
    * @returns {Array.<Number>}
    */
   const parseExtent = (extentString) => {
-    const extentStringSegments = extentString.split(',').map((value) => value.trim()).filter((value) => value.length > 0);
+    const extentStringSegments = extentString.split(UrlSymbals.Comma).map((value) => value.trim()).filter((value) => value.length > 0);
     let extent = null;
     if (extentStringSegments.length === 4) {
       extent = extentStringSegments.map((value) => Number(value));
@@ -109,7 +115,7 @@
    */
   const buildExtentString = (extent) => {
     const segments = extent.slice(0, 4);
-    return (segments.length === 4) ? segments.join(',') : '';
+    return (segments.length === 4) ? segments.join(UrlSymbals.Comma) : '';
   };
 
   // @type {Object.<SourceType, LayerType>}
