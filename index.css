@@ -86,7 +86,7 @@ html, body {
 }
 
 #map > .ol-viewport .layer-list__item {
-  height: 40px;
+  min-height: 40px;
   font-size: 18px;
   background-color: transparent;
 }
@@ -95,6 +95,8 @@ html, body {
 }
 
 #map > .ol-viewport .layer-list__item-row {
+  height: 40px;
+  
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
