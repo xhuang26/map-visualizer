@@ -22,6 +22,14 @@ html, body {
   bottom: 0;
   width: 0;
   overflow: visible;
+  -webkit-transition: width 200ms ease;
+  -moz-transition: width 200ms ease;
+  -ms-transition: width 200ms ease;
+  -o-transition: width 200ms ease;
+  transition: width 200ms ease;
+}
+#map > .ol-viewport.layer-list--expanded .layer-list {
+  width: 400px;
 }
 
 #map > .ol-viewport .layer-list .layer-list__toggle.ol-control {
