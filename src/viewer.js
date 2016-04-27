@@ -166,6 +166,9 @@
     layerListContainer.appendChild(layerListTitle);
     layerListContainer.appendChild(layerListBody);
 
+    const mainLayerGroup = this.getMap().getLayerGroup();
+    const mainLayerCollection = mainLayerGroup.getLayers();
+
     const handleToggleLayerList = function() {
       const viewportElement = this.getMap().getViewport();
       if (viewportElement.classList.contains(LayerListExpandedFlag)) {
@@ -173,6 +176,7 @@
       } else {
         viewportElement.classList.add(LayerListExpandedFlag);
       }
+      console.info('mainLayerCollection', mainLayerCollection);
       //this.getMap().getView().setRotation(0);
     }.bind(this);
 
