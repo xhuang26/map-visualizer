@@ -338,6 +338,7 @@
     const rowElement = input.parentElement;
     const valueLabel = rowElement.querySelector(`.${this.CssClasses_.ItemRow}__value-label`);
     const layerElement = rowElement.parentElement;
+    const opacityToggle = layerElement.querySelector(`.${this.CssClasses_.ItemAction_Opacity}`);
     const layerId = layerElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
     // @range [1, 100]
@@ -346,12 +347,17 @@
     
     valueLabel.textContent = `${inputValue}%`;
     thisLayer.opacity = opacityValue;
+    opacityToggle.style.opacity = opacityValue;
     
-    // Update hash.
-    const configString = buildLayerConfigString(this.layers_);
-    setHashValue({
-      "config": configString
-    });
+    if (typeof event.detail === 'object' && event.detail.noUpdate) {
+      // Don't update hash.
+    } else {
+      // Update hash.
+      const configString = buildLayerConfigString(this.layers_);
+      setHashValue({
+        "config": configString
+      });
+    }
   };
   /**
    * Re-assign zIndex values to layers according to their position in list.
@@ -555,6 +561,13 @@
       if (opacityInput.value !== opacityInputValue) {
         opacityInput.value = opacityInputValue;
       }
+      this_.boundChangeLayerOpacityHandler_({
+        currentTarget: opacityInput,
+        target: opacityInput,
+        detail: {
+          noUpdate: true
+        }
+      });
     });
   };
   const layerListControl = new LayerListControl();
