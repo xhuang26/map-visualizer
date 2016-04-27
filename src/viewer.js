@@ -145,7 +145,8 @@
     const options = opt_options || {};
 
     const button = document.createElement('button');
-    button.innerHTML = 'N';
+    button.className = 'material-icons';
+    button.innerHTML = 'layers';
 
     const this_ = this;
     const handleRotateNorth = function() {
