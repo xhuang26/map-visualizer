@@ -415,7 +415,7 @@
     itemRowOpacityInput.type = 'range';
     itemRowOpacityInput.max = maxOpacity * 100;
     itemRowOpacityInput.min = minOpacity * 100;
-    itemRowOpacityInput.step = 10;
+    itemRowOpacityInput.step = 5;
     itemRowOpacityInput.value = Math.floor(layer.opacity * 100);
     
     const itemRowOpacityValueLabel = document.createElement('label');
