@@ -629,7 +629,7 @@
     console.info('extra.extent', extra.extent);
     if (loaded && sourceUrl === loadedSourceUrl) {
       // Source Url didn't change.
-      console.warn('Updating...');
+      console.log('Updating...');
       // Update layers.
       updateLayers.call(mainLayerCollection, extra.layerConfigs);
       //! Update map view extent.
@@ -639,7 +639,7 @@
       console.log('Updated');
       busy = false;
     } else {
-      console.warn('Loading new...');
+      console.log('Loading new...');
       // Some resetting here.
       loaded = false;
       mainLayerCollection.clear();
