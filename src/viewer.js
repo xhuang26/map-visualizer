@@ -166,16 +166,15 @@
     layerListContainer.appendChild(layerListTitle);
     layerListContainer.appendChild(layerListBody);
 
-    const this_ = this;
     const handleToggleLayerList = function() {
-      const viewportElement = this_.getMap().getViewport();
+      const viewportElement = this.getMap().getViewport();
       if (viewportElement.classList.contains(LayerListExpandedFlag)) {
         viewportElement.classList.remove(LayerListExpandedFlag);
       } else {
         viewportElement.classList.add(LayerListExpandedFlag);
       }
-      //this_.getMap().getView().setRotation(0);
-    };
+      //this.getMap().getView().setRotation(0);
+    }.bind(this);
 
     button.addEventListener('click', handleToggleLayerList, false);
     button.addEventListener('touchstart', handleToggleLayerList, false);
