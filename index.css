@@ -144,6 +144,22 @@ html, body {
   visibility: hidden;
 }
 
+#map > .ol-viewport .layer-list__item-row__label {
+  font-size: 14px;
+}
+
+#map > .ol-viewport .layer-list__item-row.row-opacity .layer-list__item-row__input {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+#map > .ol-viewport .layer-list__item-row.row-opacity .layer-list__item-row__value-label {
+  font-size: 14px;
+  width: 50px;
+  text-align: center;
+}
+
+
 #map > .ol-viewport .ol-control.ol-zoom {
   top: 3em;
   left: 0.5em;
