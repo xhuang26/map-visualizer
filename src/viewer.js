@@ -144,7 +144,7 @@
   };
 
   const LayerListExpandedFlag = 'layer-list--expanded',
-        LayerItemClasName = 'layer-list__item';
+        LayerItemClasName = 'layer-list__item',
         LayerItemHiddenFlag = LayerItemClasName + '--hidden';
 
   const supportedSourceTypes = Object.keys(layerTypeMapping);
