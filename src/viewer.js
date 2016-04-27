@@ -199,8 +199,8 @@
       });
     }.bind(this);
 
-    $(layerListBody).on('click', '.' + LayerItemHideToggle, handleToggleLayerVisibility);
-    $(layerListBody).on('touchstart', '.' + LayerItemHideToggle, handleToggleLayerVisibility);
+    $(layerListBody).on('click', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
+    $(layerListBody).on('touchstart', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
 
     const layerListContainer = document.createElement('div');
     layerListContainer.className = 'layer-list__container';
@@ -246,18 +246,18 @@
       // Build DOM.
       internalLayers.forEach((layer) => {
         const itemHideToggle = document.createElement('button');
-        itemHideToggle.className = LayerItemHideToggle + ' material-icons';
+        itemHideToggle.className = `${LayerItemHideToggle} material-icons`;
         itemHideToggle.textContent = 'visibility_off';
 
         const itemLabel = document.createElement('label');
-        itemLabel.className = LayerItemClasName + '__label';
+        itemLabel.className = `${LayerItemClasName}__label`;
         itemLabel.textContent = layer.title;
 
         const itemPromote = document.createElement('button');
-        itemPromote.className = LayerItemPromote + ' material-icons';
+        itemPromote.className = `${LayerItemPromote} material-icons`;
         itemPromote.textContent = 'keyboard_arrow_up';
         const itemDemote = document.createElement('button');
-        itemDemote.className = LayerItemDemote + ' material-icons';
+        itemDemote.className = `${LayerItemDemote} material-icons`;
         itemDemote.textContent = 'keyboard_arrow_down';
 
         const itemContainer = document.createElement('div');
@@ -299,7 +299,7 @@
 
       // Update DOM.
       $(container).append(
-        $(container).children('.' + LayerItemClasName)
+        $(container).children(`.${LayerItemClasName}`)
         .detach()
         .sort((a, b) => {
           const layerIdA = a.getAttribute('data-layer-id'),
@@ -418,7 +418,7 @@
       const JSONP_URL = (sourceUrl.indexOf('?') > -1) ? `${sourceUrl}&jsoncallback=?` : `${sourceUrl}?jsoncallback=?`;
       $.getJSON(sourceUrl)
       .fail((jqxhr, textStatus, error) => {
-        const err = textStatus + ", " + error;
+        const err = `${textStatus}, ${error}`;
         console.error(err);
         $notificationContainer.append($('<span>').text(err));
       })
