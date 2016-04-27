@@ -159,6 +159,9 @@ html, body {
   text-align: center;
 }
 
+#map > .ol-viewport .layer-list__item:not(.layer-list__item--opacity-control-expanded) .layer-list__item-row.row-opacity {
+  display: none;
+}
 
 #map > .ol-viewport .ol-control.ol-zoom {
   top: 3em;
