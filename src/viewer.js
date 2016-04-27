@@ -169,10 +169,9 @@
     // Internal data structure storing layers.
     const internalLayers = [];
 
+    const compareLayerOrder = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
     const sortLayers = function (layers) {
-      layers.sort((a, b) => {
-        return (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
-      });
+      layers.sort(compareLayerOrder);
     }.bind(this);
 
     this.reload = function (layerConfigs, extraLayerConfigs) {
