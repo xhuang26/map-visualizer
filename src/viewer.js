@@ -200,6 +200,9 @@
     this.boundDemoteLayerHandler_ = this.demoteLayerHandler_.bind(this);
     $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
     $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
+    
+    this.boundChangeLayerOpacityHandler_ = this.changeLayerOpacityHandler_.bind(this);
+    $(this.layerListBody_).on('change', `.${this.CssClasses_.ItemRow}.row-opacity .${this.CssClasses_.ItemRow}__input`, this.boundChangeLayerOpacityHandler_);
 
     this.boundToggleLayerListHandler_ = this.toggleLayerListHandler_.bind(this);
     this.toggleButton_.addEventListener('click', this.boundToggleLayerListHandler_, false);
@@ -327,6 +330,16 @@
     setHashValue({
       "config": configString
     });
+  };
+  LayerListControl.prototype.changeLayerOpacityHandler_ = function (event) {
+    const input = event.currentTarget;
+    const rowElement = button.parentElement;
+    const valueLabel = rowElement.querySelector(`.${this.CssClasses_.ItemRow}__value-label`);
+    const layerElement = rowElement.parentElement;
+    const layerId = layerElement.getAttribute('data-layer-id');
+    const thisLayer = this.layerMap_.get(layerId);
+    const inputValue = input.value;
+    console.log('inputValue', inputValue);
   };
   /**
    * Re-assign zIndex values to layers according to their position in list.
