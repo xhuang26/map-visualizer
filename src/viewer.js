@@ -120,46 +120,37 @@
 
   // @type {Object.<SourceType, LayerType>}
   const layerTypeMapping = {
-    "BingMaps": "Tile",
-    "CartoDB": "Tile",
-    "Cluster": "Vector",
-    "ImageCanvas": "Image",
-    "ImageMapGuide": "Image",
-    //"Image": "Image",
-    "ImageStatic": "Image",
-    "ImageVector": "Image",
-    "ImageWMS": "Image",
-    "MapQuest": "Tile",
-    "OSM": "Tile",
-    "Raster": "Image",
-    //"Source", // Abstract
-    "Stamen": "Tile",
-    "TileArcGISRest": "Tile",
-    "TileDebug": "Tile",
-    "TileImage": "Tile",
-    "TileJSON": "Tile",
-    //"Tile", // Abstract
-    "TileUTFGrid": "Tile",
-    "TileWMS": "Tile",
-    "Vector": "Vector",
-    "VectorTile": "VectorTile",
-    "WMTS": "Tile",
-    "XYZ": "Tile",
-    "Zoomify": "Tile"
-  };
+          "BingMaps": "Tile",
+          "CartoDB": "Tile",
+          "Cluster": "Vector",
+          "ImageCanvas": "Image",
+          "ImageMapGuide": "Image",
+          //"Image": "Image",
+          "ImageStatic": "Image",
+          "ImageVector": "Image",
+          "ImageWMS": "Image",
+          "MapQuest": "Tile",
+          "OSM": "Tile",
+          "Raster": "Image",
+          //"Source", // Abstract
+          "Stamen": "Tile",
+          "TileArcGISRest": "Tile",
+          "TileDebug": "Tile",
+          "TileImage": "Tile",
+          "TileJSON": "Tile",
+          //"Tile", // Abstract
+          "TileUTFGrid": "Tile",
+          "TileWMS": "Tile",
+          "Vector": "Vector",
+          "VectorTile": "VectorTile",
+          "WMTS": "Tile",
+          "XYZ": "Tile",
+          "Zoomify": "Tile"
+        },
+        supportedSourceTypes = Object.keys(layerTypeMapping);
 
-  const LayerListExpandedFlag = 'layer-list--expanded',
-        LayerItemClasName = 'layer-list__item',
-        LayerItemHiddenFlag = LayerItemClasName + '--hidden',
-        LayerItemHideToggle = LayerItemClasName + '__action-hide',
-        LayerItemPromote = LayerItemClasName + '__action-promote',
-        LayerItemDemote = LayerItemClasName + '__action-demote';
-
-  const supportedSourceTypes = Object.keys(layerTypeMapping);
-
-  const $mapContainer = $('#map');
-  const $notificationContainer = $('#notifications');
-
+  const $mapContainer = $('#map'),
+        $notificationContainer = $('#notifications');
   if ($mapContainer.length === 0 || $notificationContainer.length === 0) {
     throw new ReferenceError('Can not find elements.');
   }
@@ -169,208 +160,213 @@
     const options = opt_options || {};
 
     // Internal data structure storing layers.
-    const internalLayers = [],
-          internalLayerMap = new Map();
-    const compareLayerOrder = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
-    const sortLayers = function (layers) {
-      layers.sort(compareLayerOrder);
-    }.bind(this);
+    this.layers_ = [];
+    this.layerMap_ = new Map();
 
     // The actual button to toggle the layer list.
-    const button = document.createElement('button');
-    button.className = 'material-icons';
-    button.title = 'Toggle layer list';
-    button.textContent = 'layers';
+    this.toggleButton_ = document.createElement('button');
+    this.toggleButton_.className = 'material-icons';
+    this.toggleButton_.title = 'Toggle layer list';
+    this.toggleButton_.textContent = 'layers';
 
     // Wrap around the button to make it look like a control.
-    const fakeControl = document.createElement('div');
-    fakeControl.className = 'layer-list__toggle ol-control';
-    fakeControl.appendChild(button);
+    this.toggleButtonWrapper_ = document.createElement('div');
+    this.toggleButtonWrapper_.className = 'layer-list__toggle ol-control';
+    this.toggleButtonWrapper_.appendChild(this.toggleButton_);
 
     // Title of the layer list panel.
-    const layerListTitle = document.createElement('label');
-    layerListTitle.className = 'layer-list__title';
-    layerListTitle.textContent = 'Layers';
+    this.layerListTitle_ = document.createElement('label');
+    this.layerListTitle_.className = 'layer-list__title';
+    this.layerListTitle_.textContent = 'Layers';
 
     // Body of the layer list panel.
-    const layerListBody = document.createElement('div');
-    layerListBody.className = 'layer-list__body';
+    this.layerListBody_ = document.createElement('div');
+    this.layerListBody_.className = 'layer-list__body';
 
     // The entire panel that slides in/out.
-    const layerListContainer = document.createElement('div');
-    layerListContainer.className = 'layer-list__container';
-    layerListContainer.appendChild(layerListTitle);
-    layerListContainer.appendChild(layerListBody);
+    this.layerListContainer_ = document.createElement('div');
+    this.layerListContainer_.className = 'layer-list__container';
+    this.layerListContainer_.appendChild(this.layerListTitle_);
+    this.layerListContainer_.appendChild(this.layerListBody_);
 
-    /**
-     * Reload everything in the list from the provided layer configs and extra configs.
-     * @param {Array.<Object>} layerConfigs
-     * @param {Object} extraLayerConfigs
-     */
-    this.reload = function (layerConfigs, extraLayerConfigs) {
-      // Reset.
-      const container = layerListBody;
-      while (container.lastChild) {
-        container.removeChild(container.lastChild);
-      }
-      internalLayers.length = 0;
-      internalLayerMap.clear();
+    this.boundToggleLayerVisibilityHandler_ = this.toggleLayerVisibilityHandler_.bind(this);
+    $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Hide}`, this.boundToggleLayerVisibilityHandler_);
+    $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Hide}`, this.boundToggleLayerVisibilityHandler_);
 
-      // Load layers into internal data structure.
-      layerConfigs.forEach((config, index) => {
-        const layerId = config.id;
-        const newLayer = {
-          "index": index,
-          "id": layerId,
-          "title": config.title,
-          "zIndex": config.zIndex,
-          "visible": config.visible,
-          "opacity": config.opacity
-        };
+    this.boundToggleLayerListHandler_ = this.toggleLayerListHandler_.bind(this);
+    this.toggleButton_.addEventListener('click', this.boundToggleLayerListHandler_, false);
+    this.toggleButton_.addEventListener('touchstart', this.boundToggleLayerListHandler_, false);
 
-        if (extraLayerConfigs.hasOwnProperty(layerId)) {
-          const extraConfig = extraLayerConfigs[layerId];
-          for (let propName of ['zIndex', 'visible', 'opacity']) {
-            if (extraConfig.hasOwnProperty(propName)) {
-              newLayer[propName] = extraConfig[propName];
-            }
-          }
-        }
-
-        internalLayers.push(newLayer);
-        internalLayerMap.set(layerId, newLayer);
-      });
-
-      sortLayers(internalLayers);
-
-      // Build DOM.
-      internalLayers.forEach((layer) => {
-        const itemHideToggle = document.createElement('button');
-        itemHideToggle.className = `${LayerItemHideToggle} material-icons`;
-        itemHideToggle.title = 'Toggle layer visibility';
-        itemHideToggle.textContent = 'visibility_off';
-
-        const itemLabel = document.createElement('label');
-        itemLabel.className = `${LayerItemClasName}__label`;
-        itemLabel.textContent = layer.title;
-
-        const itemPromote = document.createElement('button');
-        itemPromote.className = `${LayerItemPromote} material-icons`;
-        itemPromote.title = 'Bring layer forward';
-        itemPromote.textContent = 'keyboard_arrow_up';
-        const itemDemote = document.createElement('button');
-        itemDemote.className = `${LayerItemDemote} material-icons`;
-        itemDemote.title = 'Send layer backward';
-        itemDemote.textContent = 'keyboard_arrow_down';
-
-        const itemContainer = document.createElement('div');
-        itemContainer.className = LayerItemClasName;
-        if (!layer.visible) {
-          itemContainer.classList.add(LayerItemHiddenFlag);
-        } else {
-          itemContainer.classList.remove(LayerItemHiddenFlag);
-        }
-        itemContainer.setAttribute('data-layer-id', layer.id);
-        itemContainer.appendChild(itemHideToggle);
-        itemContainer.appendChild(itemLabel);
-        itemContainer.appendChild(itemDemote);
-        itemContainer.appendChild(itemPromote);
-
-        container.appendChild(itemContainer);
-      });
-
-    }.bind(this);
-
-    /**
-     * Update the list with the provided extra configs.
-     * @param {Object} extraLayerConfigs
-     */
-    this.update = function (extraLayerConfigs) {
-      const container = layerListBody;
-
-      // Update internal layers.
-      internalLayers.forEach((layer) => {
-        const layerId = layer.id;
-
-        if (extraLayerConfigs.hasOwnProperty(layerId)) {
-          const extraConfig = extraLayerConfigs[layerId];
-          for (let propName of ['zIndex', 'visible', 'opacity']) {
-            if (extraConfig.hasOwnProperty(propName)) {
-              layer[propName] = extraConfig[propName];
-            }
-          }
-        }
-      });
-
-      sortLayers(internalLayers);
-
-      //! Implement this.
-      const orderChanged = true;
-      // Update DOM.
-      const $listItems = $(container).children(`.${LayerItemClasName}`);
-      // Only re-order the list elements when necessary.
-      if (orderChanged) {
-        $(container).append(
-            $listItems.detach().sort((a, b) => {
-              const layerIdA = a.getAttribute('data-layer-id'),
-                    layerIdB = b.getAttribute('data-layer-id');
-              const layerA = internalLayerMap.get(layerIdA),
-                    layerB = internalLayerMap.get(layerIdB);
-              return compareLayerOrder(layerA, layerB);
-            })
-        );
-      }
-      // Update each item.
-      $listItems.each(function () {
-        const layerId = this.getAttribute('data-layer-id');
-        const layer = internalLayerMap.get(layerId);
-        if (!layer.visible) {
-          this.classList.add(LayerItemHiddenFlag);
-        } else {
-          this.classList.remove(LayerItemHiddenFlag);
-        }
-      });
-
-    }.bind(this);
-
-    const handleToggleLayerVisibility = function (event) {
-      const button = event.currentTarget;
-      const layerRowElement = button.parentElement;
-      const layerId = layerRowElement.getAttribute('data-layer-id');
-      const layer = internalLayerMap.get(layerId);
-      layer.visible = !layer.visible;
-
-      // Update hash.
-      const configString = buildLayerConfigString(internalLayers);
-      setHashValue({
-        "config": configString
-      });
-    }.bind(this);
-
-    $(layerListBody).on('click', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
-    $(layerListBody).on('touchstart', `.${LayerItemHideToggle}`, handleToggleLayerVisibility);
-
-    const handleToggleLayerList = function () {
-      const viewportElement = this.getMap().getViewport();
-      if (viewportElement.classList.contains(LayerListExpandedFlag)) {
-        viewportElement.classList.remove(LayerListExpandedFlag);
-      } else {
-        viewportElement.classList.add(LayerListExpandedFlag);
-      }
-      //this.getMap().getView().setRotation(0);
-    }.bind(this);
-
-    button.addEventListener('click', handleToggleLayerList, false);
-    button.addEventListener('touchstart', handleToggleLayerList, false);
-
-    const element = document.createElement('div');
-    element.className = 'layer-list ol-unselectable';
-    element.appendChild(layerListContainer);
-    element.appendChild(fakeControl);
+    this.element_ = document.createElement('div');
+    this.element_.className = 'layer-list ol-unselectable';
+    this.element_.appendChild(this.layerListContainer_);
+    this.element_.appendChild(this.toggleButtonWrapper_);
 
     ol.control.Control.call(this, {
-      element: element,
+      element: this.element_,
       target: options.target
+    });
+  };
+  LayerListControl.prototype.CssClasses_ = {
+    "ListExpanded": "layer-list--expanded",
+    "Item": "layer-list__item",
+    "Item_Hidden": "layer-list__item--hidden",
+    "ItemAction_Hide": "layer-list__item__action-hide",
+    "ItemAction_Promote": "layer-list__item__action-promote",
+    "ItemAction_Demote": "layer-list__item__action-demote"
+  };
+  LayerListControl.prototype.compareLayerOrder_ = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
+  LayerListControl.prototype.sortLayers_ = function () {
+    this.layers_.sort(this.compareLayerOrder_);
+  };
+  LayerListControl.prototype.toggleLayerListHandler_ = function () {
+    const viewportElement = this.getMap().getViewport();
+    if (viewportElement.classList.contains(this.CssClasses_.ListExpanded)) {
+      viewportElement.classList.remove(this.CssClasses_.ListExpanded);
+    } else {
+      viewportElement.classList.add(this.CssClasses_.ListExpanded);
+    }
+  };
+  LayerListControl.prototype.toggleLayerVisibilityHandler_ = function (event) {
+    const button = event.currentTarget;
+    const layerRowElement = button.parentElement;
+    const layerId = layerRowElement.getAttribute('data-layer-id');
+    const layer = this.layerMap_.get(layerId);
+    layer.visible = !layer.visible;
+
+    // Update hash.
+    const configString = buildLayerConfigString(this.layers_);
+    setHashValue({
+      "config": configString
+    });
+  };
+  /**
+   * Reload everything in the list from the provided layer configs and extra configs.
+   * @param {Array.<Object>} layerConfigs
+   * @param {Object} extraLayerConfigs
+   */
+  LayerListControl.prototype.reload = function (layerConfigs, extraLayerConfigs) {
+    const container = this.layerListBody_;
+    
+    // Reset.
+    while (container.lastChild) {
+      container.removeChild(container.lastChild);
+    }
+    this.layers_.length = 0;
+    this.layerMap_.clear();
+
+    // Load layers into internal data structure.
+    layerConfigs.forEach((config, index) => {
+      const layerId = config.id;
+      const newLayer = {
+        "index": index,
+        "id": layerId,
+        "title": config.title,
+        "zIndex": config.zIndex,
+        "visible": config.visible,
+        "opacity": config.opacity
+      };
+
+      if (extraLayerConfigs.hasOwnProperty(layerId)) {
+        const extraConfig = extraLayerConfigs[layerId];
+        for (let propName of ['zIndex', 'visible', 'opacity']) {
+          if (extraConfig.hasOwnProperty(propName)) {
+            newLayer[propName] = extraConfig[propName];
+          }
+        }
+      }
+
+      this.layers_.push(newLayer);
+      this.layerMap_.set(layerId, newLayer);
+    });
+
+    this.sortLayers_();
+
+    // Build DOM.
+    this.layers_.forEach((layer) => {
+      const itemHideToggle = document.createElement('button');
+      itemHideToggle.className = `${this.CssClasses_.ItemAction_Hide} material-icons`;
+      itemHideToggle.title = 'Toggle layer visibility';
+      itemHideToggle.textContent = 'visibility_off';
+
+      const itemLabel = document.createElement('label');
+      itemLabel.className = `${this.CssClasses_.Item}__label`;
+      itemLabel.textContent = layer.title;
+
+      const itemPromote = document.createElement('button');
+      itemPromote.className = `${this.CssClasses_.ItemAction_Promote} material-icons`;
+      itemPromote.title = 'Bring layer forward';
+      itemPromote.textContent = 'keyboard_arrow_up';
+      const itemDemote = document.createElement('button');
+      itemDemote.className = `${this.CssClasses_.ItemAction_Demote} material-icons`;
+      itemDemote.title = 'Send layer backward';
+      itemDemote.textContent = 'keyboard_arrow_down';
+
+      const itemContainer = document.createElement('div');
+      itemContainer.className = this.CssClasses_.Item;
+      if (!layer.visible) {
+        itemContainer.classList.add(this.CssClasses_.Item_Hidden);
+      } else {
+        itemContainer.classList.remove(this.CssClasses_.Item_Hidden);
+      }
+      itemContainer.setAttribute('data-layer-id', layer.id);
+      itemContainer.appendChild(itemHideToggle);
+      itemContainer.appendChild(itemLabel);
+      itemContainer.appendChild(itemDemote);
+      itemContainer.appendChild(itemPromote);
+
+      container.appendChild(itemContainer);
+    });
+
+  };
+  /**
+   * Update the list with the provided extra configs.
+   * @param {Object} extraLayerConfigs
+   */
+  LayerListControl.prototype.update = function (extraLayerConfigs) {
+    const container = this.layerListBody_;
+
+    // Update internal layers.
+    this.layers_.forEach((layer) => {
+      const layerId = layer.id;
+
+      if (extraLayerConfigs.hasOwnProperty(layerId)) {
+        const extraConfig = extraLayerConfigs[layerId];
+        for (let propName of ['zIndex', 'visible', 'opacity']) {
+          if (extraConfig.hasOwnProperty(propName)) {
+            layer[propName] = extraConfig[propName];
+          }
+        }
+      }
+    });
+
+    this.sortLayers_();
+
+    //! Implement this.
+    const orderChanged = true;
+    // Update DOM.
+    const $listItems = $(container).children(`.${this.CssClasses_.Item}`);
+    // Only re-order the list elements when necessary.
+    if (orderChanged) {
+      $(container).append(
+          $listItems.detach().sort((a, b) => {
+            const layerIdA = a.getAttribute('data-layer-id'),
+                  layerIdB = b.getAttribute('data-layer-id');
+            const layerA = this.layerMap_.get(layerIdA),
+                  layerB = this.layerMap_.get(layerIdB);
+            return this.compareLayerOrder_(layerA, layerB);
+          })
+      );
+    }
+    // Update each item.
+    $listItems.each(function () {
+      const layerId = this.getAttribute('data-layer-id');
+      const layer = this.layerMap_.get(layerId);
+      if (!layer.visible) {
+        this.classList.add(this.CssClasses_.Item_Hidden);
+      } else {
+        this.classList.remove(this.CssClasses_.Item_Hidden);
+      }
     });
   };
   ol.inherits(LayerListControl, ol.control.Control);
