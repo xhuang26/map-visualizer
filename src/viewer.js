@@ -341,10 +341,22 @@
       }
     });
 
+    // Get a layer-index mapping in order to detect changes in order.
+    const orderMap = {};
+    this.layers_.forEach((layer, index) => {
+      orderMap[layer.id] = index;
+    });
+    
     this.sortLayers_();
-
-    //! Implement this.
-    const orderChanged = true;
+    
+    // Check if the order is changed.
+    let orderChanged = false;
+    this.layers_.forEach((layer, index) => {
+      if (orderMap[layer.id] !== index) {
+        orderChanged = true;
+      }
+    });
+    
     // Update DOM.
     const $listItems = $(container).children(`.${this.CssClasses_.Item}`);
     // Only re-order the list elements when necessary.
