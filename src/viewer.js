@@ -143,7 +143,9 @@
     "Zoomify": "Tile"
   };
 
-  const LayerListExpandedFlag = 'layer-list--expanded';
+  const LayerListExpandedFlag = 'layer-list--expanded',
+        LayerItemClasName = 'layer-list__item';
+        LayerItemHiddenFlag = LayerItemClasName + '--hidden';
 
   const supportedSourceTypes = Object.keys(layerTypeMapping);
 
@@ -226,11 +228,16 @@
       // Build DOM.
       internalLayers.forEach((layer) => {
         const itemLabel = document.createElement('label');
-        itemLabel.className = 'layer-list__item__label';
+        itemLabel.className = LayerItemClasName + '__label';
         itemLabel.textContent = layer.title;
 
         const itemContainer = document.createElement('div');
-        itemContainer.className = 'layer-list__item';
+        itemContainer.className = LayerItemClasName;
+        if (!layer.visible) {
+          itemContainer.classList.add(LayerItemHiddenFlag);
+        } else {
+          itemContainer.classList.remove(LayerItemHiddenFlag);
+        }
         itemContainer.setAttribute('data-layer-id', layer.id);
         itemContainer.appendChild(itemLabel);
 
@@ -259,13 +266,26 @@
       sortLayers(internalLayers);
 
       // Update DOM.
-      $(container).append($(container).children('.layer-list__item').detach().sort((a, b) => {
-        const layerIdA = a.getAttribute('data-layer-id'),
-              layerIdB = b.getAttribute('data-layer-id');
-        const layerA = internalLayerMap.get(layerIdA),
-              layerB = internalLayerMap.get(layerIdB);
-        return compareLayerOrder(layerA, layerB);
-      }));
+      $(container).append(
+        $(container).children('.' + LayerItemClasName)
+        .detach()
+        .sort((a, b) => {
+          const layerIdA = a.getAttribute('data-layer-id'),
+                layerIdB = b.getAttribute('data-layer-id');
+          const layerA = internalLayerMap.get(layerIdA),
+                layerB = internalLayerMap.get(layerIdB);
+          return compareLayerOrder(layerA, layerB);
+        })
+        .forEach((element) => {
+          const layerId = element.getAttribute('data-layer-id');
+          const layer = internalLayerMap.get(layerId);
+          if (!layer.visible) {
+            element.classList.add(LayerItemHiddenFlag);
+          } else {
+            element.classList.remove(LayerItemHiddenFlag);
+          }
+        })
+      );
 
     }.bind(this);
 
