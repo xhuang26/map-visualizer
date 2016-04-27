@@ -286,13 +286,13 @@
                 layerB = internalLayerMap.get(layerIdB);
           return compareLayerOrder(layerA, layerB);
         })
-        .forEach((element) => {
-          const layerId = element.getAttribute('data-layer-id');
+        .each(function () {
+          const layerId = this.getAttribute('data-layer-id');
           const layer = internalLayerMap.get(layerId);
           if (!layer.visible) {
-            element.classList.add(LayerItemHiddenFlag);
+            this.classList.add(LayerItemHiddenFlag);
           } else {
-            element.classList.remove(LayerItemHiddenFlag);
+            this.classList.remove(LayerItemHiddenFlag);
           }
         })
       );
