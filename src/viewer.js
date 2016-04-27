@@ -154,8 +154,17 @@
     fakeControl.className = 'layer-list__toggle ol-control';
     fakeControl.appendChild(button);
 
+    const layerListTitle = document.createElement('label');
+    layerListTitle.className = 'layer-list__title';
+    layerListTitle.textContent = 'Layers';
+
+    const layerListBody = document.createElement('div');
+    layerListBody.className = 'layer-list__body';
+
     const layerListContainer = document.createElement('div');
     layerListContainer.className = 'layer-list__container';
+    layerListContainer.appendChild(layerListTitle);
+    layerListContainer.appendChild(layerListBody);
 
     const this_ = this;
     const handleToggleLayerList = function() {
