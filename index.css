@@ -115,7 +115,11 @@ html, body {
 #map > .ol-viewport .layer-list__item .layer-list__item__action-hide {
   visibility: hidden;
 }
-#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-hide,
+#map > .ol-viewport .layer-list__item:hover .layer-list__item__action-hide {
+  visibility: visible;
+  color: rgba(33, 33, 33, 0.3);
+  background-color: transparent;
+}
 #map > .ol-viewport .layer-list__item.layer-list__item--hidden .layer-list__item__action-hide {
   visibility: visible;
 }
