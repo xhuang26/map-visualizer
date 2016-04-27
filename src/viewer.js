@@ -177,8 +177,9 @@
 
     this.reload = function (internalLayers, layerConfigs, extraLayerConfigs) {
       // Reset.
-      while (layerListContainer.lastChild) {
-        layerListContainer.removeChild(layerListContainer.lastChild);
+      const container = layerListBody;
+      while (container.lastChild) {
+        container.removeChild(container.lastChild);
       }
       internalLayers = [];
 
@@ -215,7 +216,7 @@
         itemContainer.setAttribute('data-layer-id', layer.id);
         itemContainer.textContent = layer.title;
 
-        layerListContainer.appendChild(itemContainer);
+        container.appendChild(itemContainer);
       });
 
     }.bind(this, layers);
