@@ -95,6 +95,19 @@ html, body {
   align-items: center;
 }
 
+#map > .ol-viewport .layer-list__item button {
+  border: 0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  padding: 0;
+  background-color: transparent;
+}
+#map > .ol-viewport .layer-list__item button:hover {
+  background-color: rgba(33, 33, 33, 0.2);
+}
+
 #map > .ol-viewport .ol-control.ol-zoom {
   top: 3em;
   left: 0.5em;
