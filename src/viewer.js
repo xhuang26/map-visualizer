@@ -131,6 +131,8 @@
     "Zoomify": "Tile"
   };
 
+  const LayerListExpandedFlag = 'layer-list--expanded';
+
   const supportedSourceTypes = Object.keys(layerTypeMapping);
 
   const $mapContainer = $('#map');
@@ -148,17 +150,31 @@
     button.className = 'material-icons';
     button.textContent = 'layers';
 
+    const fakeControl = document.createElement('div');
+    fakeControl.className = 'layer-list__toggle ol-control';
+    fakeControl.appendChild(button);
+
+    const layerListContainer = document.createElement('div');
+    layerListContainer.className = 'layer-list__container';
+
     const this_ = this;
-    const handleRotateNorth = function() {
-      this_.getMap().getView().setRotation(0);
+    const handleToggleLayerList = function() {
+      const viewportElement = this_.getMap().getViewport();
+      if (viewportElement.classList.contains(LayerListExpandedFlag)) {
+        viewportElement.classList.remove(LayerListExpandedFlag);
+      } else {
+        viewportElement.classList.add(LayerListExpandedFlag);
+      }
+      //this_.getMap().getView().setRotation(0);
     };
 
-    button.addEventListener('click', handleRotateNorth, false);
-    button.addEventListener('touchstart', handleRotateNorth, false);
+    button.addEventListener('click', handleToggleLayerList, false);
+    button.addEventListener('touchstart', handleToggleLayerList, false);
 
     const element = document.createElement('div');
-    element.className = 'layer-list ol-unselectable ol-control';
-    element.appendChild(button);
+    element.className = 'layer-list ol-unselectable';
+    element.appendChild(layerListContainer);
+    element.appendChild(fakeControl);
 
     ol.control.Control.call(this, {
       element: element,
