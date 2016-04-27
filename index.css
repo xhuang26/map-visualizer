@@ -86,7 +86,7 @@ html, body {
 }
 
 #map > .ol-viewport .layer-list__item {
-  padding: 5px 10px;
+  height: 40px;
   font-size: 18px;
   
   display: flex;
