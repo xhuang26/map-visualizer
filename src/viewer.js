@@ -333,7 +333,7 @@
   };
   LayerListControl.prototype.changeLayerOpacityHandler_ = function (event) {
     const input = event.currentTarget;
-    const rowElement = button.parentElement;
+    const rowElement = input.parentElement;
     const valueLabel = rowElement.querySelector(`.${this.CssClasses_.ItemRow}__value-label`);
     const layerElement = rowElement.parentElement;
     const layerId = layerElement.getAttribute('data-layer-id');
