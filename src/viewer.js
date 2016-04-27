@@ -222,7 +222,8 @@
     "Item_Hidden": "layer-list__item--hidden",
     "ItemAction_Hide": "layer-list__item__action-hide",
     "ItemAction_Promote": "layer-list__item__action-promote",
-    "ItemAction_Demote": "layer-list__item__action-demote"
+    "ItemAction_Demote": "layer-list__item__action-demote",
+    "ItemAction_Opacity": "layer-list__item__action-opacity"
   };
   LayerListControl.prototype.compareLayerOrder_ = (a, b) => (a.zIndex === b.zIndex) ? (b.index - a.index) : (b.zIndex - a.zIndex);
   LayerListControl.prototype.sortLayers_ = function () {
@@ -356,6 +357,11 @@
     itemDemote.title = 'Send layer backward';
     itemDemote.textContent = 'keyboard_arrow_down';
 
+    const itemOpacityToggle = document.createElement('button');
+    itemOpacityToggle.className = `${this.CssClasses_.ItemAction_Opacity} material-icons`;
+    itemOpacityToggle.title = 'Toggle opacity slider';
+    itemOpacityToggle.textContent = 'opacity';
+
     const itemContainer = document.createElement('div');
     itemContainer.className = this.CssClasses_.Item;
     if (!layer.visible) {
@@ -368,6 +374,7 @@
     itemContainer.appendChild(itemLabel);
     itemContainer.appendChild(itemDemote);
     itemContainer.appendChild(itemPromote);
+    itemContainer.appendChild(itemOpacityToggle);
 
     return itemContainer;
   };
