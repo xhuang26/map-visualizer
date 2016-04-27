@@ -242,7 +242,14 @@
 
       sortLayers(internalLayers);
 
-      //! Update DOM.
+      // Update DOM.
+      $(container).append($(container).children('.layer-list__item').detach().sort((a, b) => {
+        const layerIdA = a.getAttribute('data-layer-id'),
+              layerIdB = b.getAttribute('data-layer-id');
+        const layerA = internalLayerMap.get(layerIdA),
+              layerB = internalLayerMap.get(layerIdB);
+        return compareLayerOrder(layerA, layerB);
+      }));
 
     }.bind(this);
 
