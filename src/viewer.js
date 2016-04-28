@@ -790,13 +790,14 @@
   };
 
   const viewExtentChangeHandler = (event) => {
-    const view = event.target;
+    const view = map.getView();
     const viewExtent = view.calculateExtent(map.getSize());
     console.log('view extent change', viewExtent);
   };
 
   map.getView().on('change:center', viewExtentChangeHandler);
   map.getView().on('change:resolution', viewExtentChangeHandler);
+  map.on('change:size', viewExtentChangeHandler);
 
 
   $(window).on('load', () => {
