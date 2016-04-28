@@ -789,6 +789,14 @@
     });
   };
 
+  map.getView().on('change:center', (event) => {
+    console.log('change:center');
+  });
+  map.getView().on('change:resolution', (event) => {
+    console.log('change:resolution');
+  });
+
+
   $(window).on('load', () => {
     startWithHash(location.hash);
     $(window).on('hashchange', () => {
