@@ -90,9 +90,15 @@
    */
   const buildLayerConfigString = (layerConfigs) => {
     const segments = [];
-    for (let config of layerConfigs) {
+    // Make a copy.
+    const localConfigs = layerConfigs.slice(0);
+    // Sort by layerId.
+    localConfigs.sort((a, b) => a.id < b.id ? -1 : 1);
+    
+    for (let config of localConfigs) {
       segments.push(`${config.id}${UrlSymbals.Colon}${config.zIndex}${UrlSymbals.Comma}${Number(config.visible)}${UrlSymbals.Comma}${config.opacity}`);
     }
+    
     return segments.join(UrlSymbals.SemiColon);
   };
 
