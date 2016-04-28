@@ -95,6 +95,7 @@ html, body {
 }
 
 #map > .ol-viewport .layer-list__item-row {
+  position: relative;
   height: 40px;
   
   display: flex;
