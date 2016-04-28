@@ -156,7 +156,7 @@
         supportedSourceTypes = Object.keys(layerTypeMapping),
         minOpacity = 0.1,
         maxOpacity = 1.0,
-        extentUpdateDelay = 500;
+        extentUpdateDelay = 1000;
 
   const $mapContainer = $('#map'),
         $notificationContainer = $('#notifications');
