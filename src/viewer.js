@@ -666,8 +666,8 @@
       // Update map view extent.
       const newExtent = (extra.extent !== null) ? extra.extent : loadedSourceData.extent;
       if (!isIdenticalExtent(fitExtent, newExtent)) {
-        fitExtent = newExtent;
-        map.getView().fit(fitExtent, map.getSize());
+        map.getView().fit(newExtent, map.getSize());
+        fitExtent = map.getView().calculateExtent(map.getSize());
       }
 
       layerListControl.update(extra.layerConfigs);
@@ -710,8 +710,9 @@
           // Update layers.
           updateLayers.call(mainLayerCollection, extra.layerConfigs);
           // Update map view extent.
-          fitExtent = (extra.extent !== null) ? extra.extent : data.extent;
-          map.getView().fit(fitExtent, map.getSize());
+          const newExtent = (extra.extent !== null) ? extra.extent : data.extent;
+          map.getView().fit(newExtent, map.getSize());
+          fitExtent = map.getView().calculateExtent(map.getSize());
 
           layerListControl.reload(data.layers, extra.layerConfigs);
 
@@ -860,6 +861,8 @@
     if (isIdenticalExtent(fitExtent, viewExtent)) {
       return;
     }
+
+    fitExtent = viewExtent;
 
     extentUpdateTimer = window.setTimeout(setViewExtent.bind(this, viewExtent), extentUpdateDelay);
   };
