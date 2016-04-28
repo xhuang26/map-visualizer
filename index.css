@@ -111,6 +111,9 @@ html, body {
 }
 
 #map > .ol-viewport .layer-list__item__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   flex-grow: 1;
   flex-shrink: 1;
 }
@@ -144,7 +147,7 @@ html, body {
 
 #map > .ol-viewport .layer-list__item:not(:hover) .layer-list__item__action-demote,
 #map > .ol-viewport .layer-list__item:not(:hover) .layer-list__item__action-promote {
-  visibility: hidden;
+  display: none;
 }
 
 #map > .ol-viewport .layer-list__item-row__label {
