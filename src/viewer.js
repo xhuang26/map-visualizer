@@ -94,11 +94,11 @@
     const localConfigs = layerConfigs.slice(0);
     // Sort by layerId.
     localConfigs.sort((a, b) => a.id < b.id ? -1 : 1);
-    
+
     for (let config of localConfigs) {
       segments.push(`${config.id}${UrlSymbals.Colon}${config.zIndex}${UrlSymbals.Comma}${Number(config.visible)}${UrlSymbals.Comma}${config.opacity}`);
     }
-    
+
     return segments.join(UrlSymbals.SemiColon);
   };
 
@@ -204,15 +204,15 @@
     this.boundPromoteLayerHandler_ = this.promoteLayerHandler_.bind(this);
     $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Promote}`, this.boundPromoteLayerHandler_);
     $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Promote}`, this.boundPromoteLayerHandler_);
-    
+
     this.boundDemoteLayerHandler_ = this.demoteLayerHandler_.bind(this);
     $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
     $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Demote}`, this.boundDemoteLayerHandler_);
-    
+
     this.boundToggleOpacityControlHandler_ = this.toggleOpacityControlHandler_.bind(this);
     $(this.layerListBody_).on('click', `.${this.CssClasses_.ItemAction_Opacity}`, this.boundToggleOpacityControlHandler_);
     $(this.layerListBody_).on('touchstart', `.${this.CssClasses_.ItemAction_Opacity}`, this.boundToggleOpacityControlHandler_);
-    
+
     this.boundChangeLayerOpacityHandler_ = this.changeLayerOpacityHandler_.bind(this);
     $(this.layerListBody_).on('input', `.${this.CssClasses_.ItemRow}.row-opacity .${this.CssClasses_.ItemRow}__input`, this.boundChangeLayerOpacityHandler_);
 
@@ -281,7 +281,7 @@
         layerIndex = index;
       }
     });
-    
+
     // Range check.
     if (layerIndex < 0 || layerIndex >= this.layers_.length) {
       throw new RangeError('Unexpected layer index.');
@@ -293,13 +293,13 @@
 
     // Update zIndex of layers with their index in list (since the list is sorted).
     this.reIndex_();
-    
+
     // Swap zIndex between this layer and its upper layer (if present).
     const upperLayer = this.layers_[layerIndex - 1];
     // Since the updated zIndex values are continuous, swapping could be done this way.
     upperLayer.zIndex--;
     thisLayer.zIndex++;
-  
+
     // Update hash.
     const configString = buildLayerConfigString(this.layers_);
     setHashValue({
@@ -319,7 +319,7 @@
         layerIndex = index;
       }
     });
-    
+
     // Range check.
     if (layerIndex < 0 || layerIndex >= this.layers_.length) {
       throw new RangeError('Unexpected layer index.');
@@ -331,13 +331,13 @@
 
     // Update zIndex of layers with their index in list (since the list is sorted).
     this.reIndex_();
-    
+
     // Swap zIndex between this layer and its lower layer (if present).
     const lowerLayer = this.layers_[layerIndex + 1];
     // Since the updated zIndex values are continuous, swapping could be done this way.
     lowerLayer.zIndex++;
     thisLayer.zIndex--;
-  
+
     // Update hash.
     const configString = buildLayerConfigString(this.layers_);
     setHashValue({
@@ -365,11 +365,11 @@
     // @range [1, 100]
     const inputValue = input.value;
     const opacityValue = inputValue * 0.01;
-    
+
     valueLabel.textContent = `${inputValue}%`;
     thisLayer.opacity = opacityValue;
     opacityToggle.style.opacity = opacityValue;
-    
+
     if (typeof event.detail === 'object' && event.detail.noUpdate) {
       // Don't update hash.
     } else {
@@ -426,11 +426,11 @@
     itemRowMain.appendChild(itemDemote);
     itemRowMain.appendChild(itemPromote);
     itemRowMain.appendChild(itemOpacityToggle);
-    
+
     const itemRowOpacityLabel = document.createElement('label');
     itemRowOpacityLabel.className = `${this.CssClasses_.ItemRow}__label`;
     itemRowOpacityLabel.textContent = 'Opacity';
-    
+
     const itemRowOpacityInput = document.createElement('input');
     itemRowOpacityInput.className = `${this.CssClasses_.ItemRow}__input`;
     itemRowOpacityInput.type = 'range';
@@ -438,11 +438,11 @@
     itemRowOpacityInput.min = minOpacity * 100;
     itemRowOpacityInput.step = 5;
     itemRowOpacityInput.value = Math.floor(layer.opacity * 100);
-    
+
     const itemRowOpacityValueLabel = document.createElement('label');
     itemRowOpacityValueLabel.className = `${this.CssClasses_.ItemRow}__value-label`;
     itemRowOpacityValueLabel.textContent = `${itemRowOpacityInput.value}%`;
-    
+
     const itemRowOpacity = document.createElement('div');
     itemRowOpacity.className = `${this.CssClasses_.ItemRow} row-opacity`;
     itemRowOpacity.appendChild(itemRowOpacityLabel);
@@ -469,7 +469,7 @@
    */
   LayerListControl.prototype.reload = function (layerConfigs, extraLayerConfigs) {
     const container = this.layerListBody_;
-    
+
     // Reset.
     while (container.lastChild) {
       container.removeChild(container.lastChild);
@@ -535,9 +535,9 @@
     this.layers_.forEach((layer, index) => {
       orderMap[layer.id] = index;
     });
-    
+
     this.sortLayers_();
-    
+
     // Check if the order is changed.
     let orderChanged = false;
     this.layers_.forEach((layer, index) => {
@@ -545,7 +545,7 @@
         orderChanged = true;
       }
     });
-    
+
     // Update DOM.
     const $listItems = $(container).children(`.${this.CssClasses_.Item}`);
     // Only re-order the list elements when necessary.
@@ -565,16 +565,16 @@
     $listItems.each(function () {
       // `this` is the element.
       const layerRowElement = this;
-      
+
       const layerId = layerRowElement.getAttribute('data-layer-id');
       const layer = this_.layerMap_.get(layerId);
-      
+
       if (!layer.visible) {
         layerRowElement.classList.add(this_.CssClasses_.Item_Hidden);
       } else {
         layerRowElement.classList.remove(this_.CssClasses_.Item_Hidden);
       }
-      
+
       const opacityRow = layerRowElement.querySelector(`.${this_.CssClasses_.ItemRow}.row-opacity`);
       const opacityInput = opacityRow.querySelector(`.${this_.CssClasses_.ItemRow}__input`);
       const opacityValueLabel = opacityRow.querySelector(`.${this_.CssClasses_.ItemRow}__value-label`);
@@ -610,7 +610,8 @@
   // Runtime data.
   let busy = false,
       loaded = false,
-      loadedSourceUrl = null;
+      loadedSourceUrl = null,
+      loadedSourceData = null;
 
   const startWithHash = (hash) => {
     if (busy) {
@@ -639,6 +640,8 @@
       // Update layers.
       updateLayers.call(mainLayerCollection, extra.layerConfigs);
       //! Update map view extent.
+      const fitExtent = (extra.extent !== null) ? extra.extent : loadedSourceData.extent;
+      map.getView().fit(fitExtent, map.getSize());
 
       layerListControl.update(extra.layerConfigs);
 
@@ -648,6 +651,8 @@
       console.log('Loading new...');
       // Some resetting here.
       loaded = false;
+      loadedSourceUrl = null;
+      loadedSourceData = null;
       mainLayerCollection.clear();
       $notificationContainer.empty();
       $notificationContainer.append($('<span>').text(hash));
@@ -676,11 +681,14 @@
           // Update layers.
           updateLayers.call(mainLayerCollection, extra.layerConfigs);
           //! Update map view extent.
+          const fitExtent = (extra.extent !== null) ? extra.extent : data.extent;
+          map.getView().fit(fitExtent, map.getSize());
 
           layerListControl.reload(data.layers, extra.layerConfigs);
 
           loaded = true;
           loadedSourceUrl = sourceUrl;
+          loadedSourceData = data;
           console.log('Loaded');
         } catch (err) {
           console.error(err);
@@ -788,4 +796,6 @@
       startWithHash(location.hash);
     });
   });
+
+  window.map = map;
 })();
