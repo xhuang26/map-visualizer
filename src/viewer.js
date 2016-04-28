@@ -789,12 +789,14 @@
     });
   };
 
-  map.getView().on('change:center', (event) => {
-    console.log('change:center');
-  });
-  map.getView().on('change:resolution', (event) => {
-    console.log('change:resolution');
-  });
+  const viewExtentChangeHandler = (event) => {
+    const view = event.target;
+    const viewExtent = view.calculateExtent(map.getSize());
+    console.log('view extent change', viewExtent);
+  };
+
+  map.getView().on('change:center', viewExtentChangeHandler);
+  map.getView().on('change:resolution', viewExtentChangeHandler);
 
 
   $(window).on('load', () => {
