@@ -155,7 +155,8 @@
         },
         supportedSourceTypes = Object.keys(layerTypeMapping),
         minOpacity = 0.1,
-        maxOpacity = 1.0;
+        maxOpacity = 1.0,
+        extentUpdateDelay = 500;
 
   const $mapContainer = $('#map'),
         $notificationContainer = $('#notifications');
@@ -611,7 +612,8 @@
   let busy = false,
       loaded = false,
       loadedSourceUrl = null,
-      loadedSourceData = null;
+      loadedSourceData = null,
+      extentUpdateTimer = null;
 
   const startWithHash = (hash) => {
     if (busy) {
@@ -620,6 +622,13 @@
       return;
     }
     busy = true;
+
+    // Cancel any extent updates.
+    if (extentUpdateTimer !== null) {
+      window.clearTimeout(extentUpdateTimer);
+      extentUpdateTimer = null;
+    }
+
     console.info('Hash', hash);
     const parse = parseHash(hash);
     console.info('parse', parse);
@@ -655,6 +664,7 @@
       loadedSourceData = null;
       mainLayerCollection.clear();
       $notificationContainer.empty();
+
       $notificationContainer.append($('<span>').text(hash));
       // Source Url is necessary.
       if (sourceUrl.length === 0) {
@@ -789,10 +799,39 @@
     });
   };
 
+  const setViewExtent = (extent) => {
+    extentUpdateTimer = null;
+
+    // If not loaded, do nothing.
+    if (!loaded) {
+      return;
+    }
+
+    console.log('update view extent', extent);
+
+    // Update Hash.
+    const extentString = buildExtentString(extent);
+    setHashValue({
+      "extent": extentString
+    });
+  };
+
   const viewExtentChangeHandler = (event) => {
     const view = map.getView();
     const viewExtent = view.calculateExtent(map.getSize());
-    console.log('view extent change', viewExtent);
+
+    // If not loaded, ignore these events.
+    if (!loaded) {
+      return;
+    }
+
+    // Cancel pending extent updates.
+    if (extentUpdateTimer !== null) {
+      window.clearTimeout(extentUpdateTimer);
+      extentUpdateTimer = null;
+    }
+
+    extentUpdateTimer = window.setTimeout(setViewExtent.bind(this, viewExtent), extentUpdateDelay);
   };
 
   map.getView().on('change:center', viewExtentChangeHandler);
