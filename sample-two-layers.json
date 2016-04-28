@@ -1,8 +1,8 @@
 {
     "layers": [
         {
-            "id": "a",
-            "title": "A",
+            "id": "osm",
+            "title": "Open Street Map",
             "zIndex": 0,
             "visible": true,
             "opacity": 0.1,
@@ -12,8 +12,8 @@
             }
         },
         {
-            "id": "b",
-            "title": "B",
+            "id": "mapquest",
+            "title": "MapQuest",
             "zIndex": 0,
             "visible": true,
             "opacity": 0.1,
