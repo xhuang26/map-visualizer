@@ -124,6 +124,20 @@
     return (segments.length === 4) ? segments.join(UrlSymbals.Comma) : '';
   };
 
+  /**
+   * @param {Array.<Number>} a
+   * @param {Array.<Number>} b
+   * @returns {Boolean}
+   */
+  const isIdenticalExtent = (a, b) => {
+    for (let i = 0; i < 4; ++i) {
+      if (a[i] !== b[i]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   // @type {Object.<SourceType, LayerType>}
   const layerTypeMapping = {
           "BingMaps": "Tile",
@@ -613,7 +627,8 @@
       loaded = false,
       loadedSourceUrl = null,
       loadedSourceData = null,
-      extentUpdateTimer = null;
+      extentUpdateTimer = null,
+      fitExtent = null;
 
   const startWithHash = (hash) => {
     if (busy) {
@@ -648,9 +663,12 @@
       console.log('Updating...');
       // Update layers.
       updateLayers.call(mainLayerCollection, extra.layerConfigs);
-      //! Update map view extent.
-      const fitExtent = (extra.extent !== null) ? extra.extent : loadedSourceData.extent;
-      map.getView().fit(fitExtent, map.getSize());
+      // Update map view extent.
+      const newExtent = (extra.extent !== null) ? extra.extent : loadedSourceData.extent;
+      if (!isIdenticalExtent(fitExtent, newExtent)) {
+        fitExtent = newExtent;
+        map.getView().fit(fitExtent, map.getSize());
+      }
 
       layerListControl.update(extra.layerConfigs);
 
@@ -662,6 +680,7 @@
       loaded = false;
       loadedSourceUrl = null;
       loadedSourceData = null;
+      fitExtent = null;
       mainLayerCollection.clear();
       $notificationContainer.empty();
 
@@ -690,8 +709,8 @@
           loadLayers.call(mainLayerCollection, data.layers);
           // Update layers.
           updateLayers.call(mainLayerCollection, extra.layerConfigs);
-          //! Update map view extent.
-          const fitExtent = (extra.extent !== null) ? extra.extent : data.extent;
+          // Update map view extent.
+          fitExtent = (extra.extent !== null) ? extra.extent : data.extent;
           map.getView().fit(fitExtent, map.getSize());
 
           layerListControl.reload(data.layers, extra.layerConfigs);
@@ -807,7 +826,7 @@
       return;
     }
 
-    console.log('update view extent', extent);
+    console.log('update view extent in hash', extent);
 
     // Update Hash.
     const extentString = buildExtentString(extent);
@@ -816,10 +835,14 @@
     });
   };
 
-  const viewExtentChangeHandler = (event) => {
-    const view = map.getView();
-    const viewExtent = view.calculateExtent(map.getSize());
-
+  const userInteractionStart = () => {
+    // Cancel pending extent updates.
+    if (extentUpdateTimer !== null) {
+      window.clearTimeout(extentUpdateTimer);
+      extentUpdateTimer = null;
+    }
+  };
+  const userInteractionEnd = () => {
     // If not loaded, ignore these events.
     if (!loaded) {
       return;
@@ -831,13 +854,20 @@
       extentUpdateTimer = null;
     }
 
+    const viewExtent = map.getView().calculateExtent(map.getSize());
+
+    // Check if need to update extent.
+    if (isIdenticalExtent(fitExtent, viewExtent)) {
+      return;
+    }
+
     extentUpdateTimer = window.setTimeout(setViewExtent.bind(this, viewExtent), extentUpdateDelay);
   };
 
-  map.getView().on('change:center', viewExtentChangeHandler);
-  map.getView().on('change:resolution', viewExtentChangeHandler);
-  map.on('change:size', viewExtentChangeHandler);
-
+  map.on('moveend', userInteractionEnd);
+  map.getView().on('change:center', userInteractionStart);
+  map.getView().on('change:resolution', userInteractionStart);
+  map.on('change:size', userInteractionStart);
 
   $(window).on('load', () => {
     startWithHash(location.hash);
