@@ -5,6 +5,84 @@
 		"zIndex": 0,
 		"visible": true,
 		"opacity": 0.1,
+        "styles": {
+			"Point": {
+				"image": {
+					"radius": 5,
+					"fill": null,
+					"stroke": {
+						"color": "red",
+						"width": 1
+					}
+				}
+			},
+			"LineString": {
+				"stroke": {
+					"color": "green",
+					"width": 1
+				}
+			},
+			"MultiLineString": {
+				"stroke": {
+					"color": "green",
+					"width": 1
+				}
+			},
+			"MultiPoint": {
+				"image": {
+					"radius": 5,
+					"fill": null,
+					"stroke": {
+						"color": "red",
+						"width": 1
+					}
+				}
+			},
+			"MultiPolygon": {
+				"stroke": {
+					"color": "yellow",
+					"width": 1
+				},
+				"fill": {
+					"color": "rgba(255, 255, 0, 0.1)"
+				}
+			},
+			"Polygon": {
+				"stroke": {
+					"color": "blue",
+					"lineDash": [4],
+					"width": 3
+				},
+				"fill": {
+					"color": "rgba(0, 0, 255, 0.1)"
+				}
+			},
+			"GeometryCollection": {
+				"stroke": {
+					"color": "magenta",
+					"width": 2
+				},
+				"fill": {
+					"color": "magenta"
+				},
+				"image": {
+					"radius": 10,
+					"fill": null,
+					"stroke": {
+						"color": "magenta"
+					}
+				}
+			},
+			"Circle": {
+				"stroke": {
+					"color": "red",
+					"width": 2
+				},
+				"fill": {
+					"color": "rgba(255,0,0,0.2)"
+				}
+			}
+		},
 		"source": {
 			"type": "FeatureCollection",
 			"options": {
@@ -130,85 +208,8 @@
 					}
 				}]
 			}
-		},
-		"styles": {
-			"Point": {
-				"image": {
-					"radius": 5,
-					"fill": null,
-					"stroke": {
-						"color": "red",
-						"width": 1
-					}
-				}
-			},
-			"LineString": {
-				"stroke": {
-					"color": "green",
-					"width": 1
-				}
-			},
-			"MultiLineString": {
-				"stroke": {
-					"color": "green",
-					"width": 1
-				}
-			},
-			"MultiPoint": {
-				"image": {
-					"radius": 5,
-					"fill": null,
-					"stroke": {
-						"color": "red",
-						"width": 1
-					}
-				}
-			},
-			"MultiPolygon": {
-				"stroke": {
-					"color": "yellow",
-					"width": 1
-				},
-				"fill": {
-					"color": "rgba(255, 255, 0, 0.1)"
-				}
-			},
-			"Polygon": {
-				"stroke": {
-					"color": "blue",
-					"lineDash": [4],
-					"width": 3
-				},
-				"fill": {
-					"color": "rgba(0, 0, 255, 0.1)"
-				}
-			},
-			"GeometryCollection": {
-				"stroke": {
-					"color": "magenta",
-					"width": 2
-				},
-				"fill": {
-					"color": "magenta"
-				},
-				"image": {
-					"radius": 10,
-					"fill": null,
-					"stroke": {
-						"color": "magenta"
-					}
-				}
-			},
-			"Circle": {
-				"stroke": {
-					"color": "red",
-					"width": 2
-				},
-				"fill": {
-					"color": "rgba(255,0,0,0.2)"
-				}
-			}
 		}
+		
 	}, {
 		"id": "osm",
 		"title": "Open Street Map",
