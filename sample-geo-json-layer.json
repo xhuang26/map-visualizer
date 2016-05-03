@@ -5,7 +5,7 @@
 		"title": "GeoJSON",
 		"zIndex": 0,
 		"visible": true,
-		"opacity": 0.1,
+		"opacity": 0.2,
 		"source": {
 			"type": "Vector",
 			"options": {
