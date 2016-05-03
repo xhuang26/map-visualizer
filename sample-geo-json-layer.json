@@ -169,6 +169,19 @@
                     "type": "OSM",
                     "options": {}
                 }
+        },
+         {
+            "id": "mapquest",
+            "title": "MapQuest",
+            "zIndex": 0,
+            "visible": true,
+            "opacity": 0.1,
+            "source": {
+                "type": "MapQuest",
+                "options": {
+                    "layer": "sat"
+                }
+            }
         }
     ],
     "extent": [420000, 30000, 900000, 350000]
