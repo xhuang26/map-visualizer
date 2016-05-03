@@ -9,18 +9,27 @@
             "source": {
                 "type": "TileWMS",
                 "options": {
-                    url: 'http://wms.geo.admin.ch/',
-                    crossOrigin: 'anonymous',
-                    attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/' +
-                        'en/home.html">Pixelmap 1:1000000 / geo.admin.ch</a>',
+                    url: 'http://demo.boundlessgeo.com/geoserver/wms',
                     params: {
-                        'LAYERS': 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
-                        'FORMAT': 'image/jpeg'
+                        'LAYERS': 'topp:states', 'TILED': true
                     },
-                    serverType: 'mapserver'
+                    serverType: 'geoserver'
+                }
+            }
+        },
+        {
+            "id": "mapquest",
+            "title": "MapQuest",
+            "zIndex": 0,
+            "visible": true,
+            "opacity": 0.1,
+            "source": {
+                "type": "MapQuest",
+                "options": {
+                    "layer": "sat"
                 }
             }
         }
     ],
-    "extent": [420000, 30000, 900000, 350000]
+    "extent": [-13884991, 2870341, -7455066, 6338219]
 }
