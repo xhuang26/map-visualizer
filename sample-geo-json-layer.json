@@ -6,7 +6,6 @@
 		"zIndex": 0,
 		"visible": true,
 		"opacity": 0.1,
-        
 		"source": {
 			"type": "Vector",
 			"options": {
