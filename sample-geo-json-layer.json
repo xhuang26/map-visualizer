@@ -12,11 +12,11 @@
                 "source":{
 				    "type": "FeatureCollection",
                     "crs": {
-					"type": "name",
-					"properties": {
-						"name": "EPSG:3857"
-					}
-				},
+					   "type": "name",
+					   "properties": {
+						  "name": "EPSG:3857"
+					   }
+				    },
 				    "features": [{
                         "type": "Feature",
                         "geometry": {
