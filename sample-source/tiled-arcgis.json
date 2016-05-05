@@ -12,8 +12,8 @@
             }
         },
         {
-            "id": "ESRI_StateCityHighway_USA",
-            "title": "ESRI/State City Highway/USA",
+            "id": "esri",
+            "title": "State City Highway",
             "zIndex": 1,
             "visible": true,
             "opacity": 1,
