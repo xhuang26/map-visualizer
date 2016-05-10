@@ -1,9 +1,22 @@
 {
     "layers": [
         {
+            "id": "basemap",
+            "title": "MapQuest",
+            "zIndex": 0,
+            "visible": true,
+            "opacity": 1,
+            "source": {
+                "type": "MapQuest",
+                "options": {
+                    "layer": "sat"
+                }
+            }
+        },
+        {
             "id": "010100",
             "title": "010100",
-            "zIndex": 0,
+            "zIndex": 1,
             "visible": true,
             "opacity": 1,
             "extent": [-70.44221392878208, 45.69201018566878, -66.59275284501574, 48.10970582135991],
@@ -20,7 +33,7 @@
         {
             "id": "010200",
             "title": "010200",
-            "zIndex": 0,
+            "zIndex": 1,
             "visible": true,
             "opacity": 1,
             "extent": [-70.42829639353475, 44.39770769404914, -67.67443190420401, 46.47917073352715],
