@@ -684,6 +684,7 @@
       fitExtent = null;
       mainLayerCollection.clear();
       $notificationContainer.empty();
+      layerListControl.reload([], {});
 
       $notificationContainer.append($('<span>').text(hash));
       // Source Url is necessary.
