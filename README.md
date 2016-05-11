@@ -31,6 +31,20 @@ The Souce JSON has to contain a flat list of layers and optionally some default 
 }
 ```
 
+`layer.id` should be unique for each layer. It's used for identifying layers. Try to keep it short.
+
+`layer.title` is used for displaying in the layer list.
+
+`layer.zIndex` is used to determine the rendering order, along with the position of the layer in the list; the greater the value, the higher the layer. Try to assign a unique value for each layer. If two layers have the same `zIndex`, the later layer in the list is higher.
+
+`layer.visible` determines the visibility of the layer.
+
+`layer.opacity` determines the opacity of the layer.
+
+`layer.extent` is the extent for the layer. Data outside of the extent will not be loaded or rendered.
+
+`layer.source` determines how the layer data is loaded.
+
 ### Layer Source Schema
 ```JSON
 {
