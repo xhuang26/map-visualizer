@@ -8,7 +8,7 @@ Visit the app at: [zodiase.github.io/map-visualizer](http://zodiase.github.io/ma
 - Pass in a link to a layers source file: http://zodiase.github.io/map-visualizer/#source=sample-source/tiled-arcgis.json
 - Start playing with the layers!
 
-## Layers Source File
+## Composing the Layers Source File
 Check out [the sample source files folder](https://github.com/Zodiase/map-visualizer/tree/gh-pages/sample-source) to see examples.
 
 The Souce JSON has to contain a flat list of layers and optionally some default layer configurations.
@@ -58,3 +58,8 @@ The Souce JSON has to contain a flat list of layers and optionally some default 
 `source.options` is passed to the constructor as `opt_options`.
 
 `extent` determines the initial viewing window.
+
+## Sharing with Others
+Simply copy and share the url, including all the hash values, with others. They would be able to see the same view as you do (at the time of sharing).
+
+The app stores the changes you make, including layer configurations and viewing window adjustments, in the hash string of the url.
