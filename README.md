@@ -56,3 +56,5 @@ The Souce JSON has to contain a flat list of layers and optionally some default 
 `source.type` is the name of [the constructor under `ol.source`](http://openlayers.org/en/latest/apidoc/ol.source.html), case sensitive.
 
 `source.options` is passed to the constructor as `opt_options`.
+
+`extent` determines the initial viewing window.
