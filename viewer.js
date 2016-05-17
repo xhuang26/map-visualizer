@@ -180,20 +180,31 @@
  
    
   const virtualLayerTypeMapping = {
-      "GeoJson": function(options){
+      "GeoJSON": function(options){
           if(options.json){
-              options = (new ol.format.GeoJSON()).readFeatures(options.json);
-              type = "Vector";
+              var new_options = (new ol.format.GeoJSON()).readFeatures(options.json);
               return{
-                  "type": type,
-                  "options": options
+                  "type": "Vector",
+                  "options": {
+                     "features": new_options
+                  }
               }
+          }else if(options.jsonFile){
+              var format = new ol.format.GeoJSON();
+              var url = options.jsonFile.url;
+              return{
+                  "type": "Vector",
+                  "options": {
+                    "url": url,
+                    "format": format
+                  }
+              }
+          }else{
+              throw new RangeError('Unsupported layer source type.');
           }
       }
   },
   supportedVirtualSourceTypes = Object.keys(virtualLayerTypeMapping);
-  console.log("--------------");
-  console.log(supportedVirtualSourceTypes);
   // Layer List Control.
   const LayerListControl = function (opt_options) {
     const options = opt_options || {};
@@ -792,9 +803,7 @@
       }
       
       if(supportedVirtualSourceTypes.indexOf(config.source.type) !== -1){
-          console.log("-------------");
           config.source = virtualLayerTypeMapping[config.source.type](config.source.options);
-          console.log(config.source);
       }
       
       if (typeof config.source !== 'object') {
