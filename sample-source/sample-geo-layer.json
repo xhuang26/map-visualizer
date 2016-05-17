@@ -10,7 +10,7 @@
         {
             "type": "Vector",
             "options": {
-               
+                "source": {
                     "type": "FeatureCollection",
                     "features": [{
                         "type": "Feature",
@@ -42,7 +42,19 @@
                                 ]
                         }
                     }]
-                
+                },
+                "style": {
+                    "Polygon": {
+                        "stroke": {
+                            "color": "blue",
+                            "lineDash": [4],
+                            "width": 3
+                        },
+                        "fill": {
+                            "color": "rgba(0, 0, 255, 0.1)"
+                        }
+                    }
+                }
                 
             }
         }
