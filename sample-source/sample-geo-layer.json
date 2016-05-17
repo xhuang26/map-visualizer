@@ -9,13 +9,21 @@
 		"source": 
         {
             "type": "Vector",
-            "options": {
+            "options": { 
                 "source": {
                     "type": "FeatureCollection",
+                    "crs": {
+                      "type": "name",
+                      "properties": {
+                         "name": "EPSG:4326"
+                      }
+                   },
                     "features": [{
                         "type": "Feature",
+                        "properties": {},
                         "geometry": {
                                 "type": "Polygon",
+                                "properties": {},
                                 "coordinates": [
                                   [
                                     [
