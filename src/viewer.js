@@ -172,6 +172,34 @@
         maxOpacity = 1.0,
         extentUpdateDelay = 200;
 
+
+  const virtualLayerTypeMapping = {
+      "GeoJSON": function(options){
+          if(options.json){
+              var new_options = (new ol.format.GeoJSON()).readFeatures(options.json);
+              return{
+                  "type": "Vector",
+                  "options": {
+                     "features": new_options
+                  }
+              }
+          }else if(options.jsonFile){
+              var format = new ol.format.GeoJSON();
+              var url = options.jsonFile.url;
+              return{
+                  "type": "Vector",
+                  "options": {
+                    "url": url,
+                    "format": format
+                  }
+              }
+          }else{
+              throw new RangeError('Unsupported layer source type.');
+          }
+      }
+  },
+  supportedVirtualSourceTypes = Object.keys(virtualLayerTypeMapping);
+    
   const $mapContainer = $('#map'),
         $notificationContainer = $('#notifications');
   if ($mapContainer.length === 0 || $notificationContainer.length === 0) {
@@ -773,6 +801,9 @@
             throw new TypeError('Expect layer extent to contain only numbers.');
           }
         }
+      }
+      if(supportedVirtualSourceTypes.indexOf(config.source.type) !== -1){
+          config.source = virtualLayerTypeMapping[config.source.type](config.source.options);
       }
       if (typeof config.source !== 'object') {
         throw new TypeError('Expect layer source to be an object.');
