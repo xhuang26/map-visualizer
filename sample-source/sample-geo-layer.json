@@ -9,8 +9,7 @@
 		"source": {
             {
               "type": "FeatureCollection",
-              "features": [
-                {
+              "features": [{
                   "type": "Feature",
                   "properties": {},
                   "geometry": {
@@ -40,8 +39,7 @@
                       ]
                     ]
                   }
-                }
-              ]
+                }]
             }
         }
 		
