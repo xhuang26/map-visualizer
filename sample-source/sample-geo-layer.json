@@ -10,19 +10,34 @@
         {
             "type": "Vector",
             "options": {
-                "type": "FeatureCollection",
-                "features": [{
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [
-                            [
-                              -109.1162109375,
-                              36.98500309285596
+                "source": {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [
+                                [
+                                  -109.1162109375,
+                                  36.98500309285596
+                                ]
                             ]
-                        ]
+                        }
+                    }]
+                },
+                "style":{
+                    "Point": {
+                        "image": {
+                            "radius": 5,
+                            "fill": null,
+                            "stroke": {
+                                "color": "red",
+                                "width": 1
+                            }
+                        }
                     }
-                }]
+                }
+                
             }
         }
 		
