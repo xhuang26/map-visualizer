@@ -28,7 +28,7 @@
                 "style":{
                     "Point": {
                         "image": {
-                            "radius": 100,
+                            "radius": 50,
                             "fill": null,
                             "stroke": {
                                 "color": "red",
