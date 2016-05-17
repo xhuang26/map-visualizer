@@ -1,21 +1,22 @@
 {
 	"layers": [
     {
-		"id": "geojosn",
+		"id": "geojson",
 		"title": "GeoJSON",
 		"zIndex": 0,
 		"visible": true,
-		"opacity": 0.2,
-		"source": {
-            "type": "vector",
+		"opacity": 0.1,
+		"source": 
+        {
+            "type": "Vector",
             "options": {
-              "type": "FeatureCollection",
-              "features": [{
-                  "type": "Feature",
-                  "properties": {},
-                  "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
                       [
                         [
                           -109.1162109375,
@@ -39,7 +40,7 @@
                         ]
                       ]
                     ]
-                  }
+                    }
                 }]
             }
         }
