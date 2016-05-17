@@ -1,0 +1,72 @@
+{
+	"layers": [
+    {
+		"id": "geojosn",
+		"title": "GeoJSON",
+		"zIndex": 0,
+		"visible": true,
+		"opacity": 0.2,
+		"source": {
+            {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {},
+                  "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                      [
+                        [
+                          -109.1162109375,
+                          36.98500309285596
+                        ],
+                        [
+                          -109.1162109375,
+                          41.0130657870063
+                        ],
+                        [
+                          -101.9970703125,
+                          41.0130657870063
+                        ],
+                        [
+                          -101.9970703125,
+                          36.98500309285596
+                        ],
+                        [
+                          -109.1162109375,
+                          36.98500309285596
+                        ]
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+        }
+		
+	}, {
+		"id": "osm",
+		"title": "Open Street Map",
+		"zIndex": 0,
+		"visible": true,
+		"opacity": 0.1,
+		"source": {
+			"type": "OSM",
+			"options": {}
+		}
+	}, {
+		"id": "mapquest",
+		"title": "MapQuest",
+		"zIndex": 0,
+		"visible": true,
+		"opacity": 0.1,
+		"source": {
+			"type": "MapQuest",
+			"options": {
+				"layer": "sat"
+			}
+		}
+	}],
+	"extent": [-20026376.39, -20048966.10, 20026376.39, 20048966.10]
+}
