@@ -6,10 +6,10 @@
 		"zIndex": 10,
 		"visible": true,
 		"opacity": 0.1,
-		"source": 
+		"source":
         {
-            "type": "Vector",
-            "options": { 
+            "type": "GeoJSON",
+            "options":{
                 "source": {
                     "type": "FeatureCollection",
                     "crs": {
@@ -50,20 +50,7 @@
                                 ]
                         }
                     }]
-                },
-                "style": {
-                    "Polygon": {
-                        "stroke": {
-                            "color": "blue",
-                            "lineDash": [4],
-                            "width": 3
-                        },
-                        "fill": {
-                            "color": "rgba(0, 0, 255, 0.1)"
-                        }
-                    }
-                }
-                
+                } 
             }
         }
 		
