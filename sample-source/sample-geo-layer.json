@@ -7,7 +7,8 @@
 		"visible": true,
 		"opacity": 0.2,
 		"source": {
-            {
+            "type": "vector",
+            "options": {
               "type": "FeatureCollection",
               "features": [{
                   "type": "Feature",
