@@ -10,7 +10,7 @@
         {
             "type": "GeoJSON",
             "options":{
-                "object": {
+                "json": {
                     "type": "FeatureCollection",
                     "crs": {
                       "type": "name",

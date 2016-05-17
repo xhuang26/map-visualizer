@@ -177,7 +177,23 @@
   if ($mapContainer.length === 0 || $notificationContainer.length === 0) {
     throw new ReferenceError('Can not find elements.');
   }
-
+ 
+   
+  const virtualLayerTypeMapping = {
+      "GeoJson": function(options){
+          if(options.json){
+              options = (new ol.format.GeoJSON()).readFeatures(options.json);
+              type = "Vector";
+              return{
+                  "type": type,
+                  "options": options
+              }
+          }
+      }
+  },
+  supportedVirtualSourceTypes = Object.keys(virtualLayerTypeMapping);
+  console.log("--------------");
+  console.log(supportedVirtualSourceTypes);
   // Layer List Control.
   const LayerListControl = function (opt_options) {
     const options = opt_options || {};
@@ -774,6 +790,13 @@
           }
         }
       }
+      
+      if(supportedVirtualSourceTypes.indexOf(config.source.type) !== -1){
+          console.log("-------------");
+          config.source = virtualLayerTypeMapping[config.source.type](config.source.options);
+          console.log(config.source);
+      }
+      
       if (typeof config.source !== 'object') {
         throw new TypeError('Expect layer source to be an object.');
       }

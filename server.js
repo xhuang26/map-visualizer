@@ -1,0 +1,7 @@
+var express = require("express");
+var app = express();
+port = process.argv[2] || 3000;
+
+app.use(express.static(__dirname+'/public'));
+app.listen(port); //the port you want to use
+console.log("Express server running on port: "+port);
