@@ -3,7 +3,7 @@
     {
 		"id": "geojson",
 		"title": "GeoJSON",
-		"zIndex": 0,
+		"zIndex": 10,
 		"visible": true,
 		"opacity": 0.1,
 		"source": 
