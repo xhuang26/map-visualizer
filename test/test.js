@@ -1,4 +1,3 @@
-
 /*describe('simple test', function(){
     before('set up url', function(){
         console.log("set url")
@@ -29,7 +28,6 @@
             expect(browser.getText('#notifications span:nth-Child(2)')).to.equal('No source url available.'); 
             browser.notificationCheck('/','', 'No source url available.');
         });
-        
     });
     describe('should have layers button work noramally', function(){
         
