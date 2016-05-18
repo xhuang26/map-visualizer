@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var username = process.env.SAUCE_USERNAME;
 var access_key = process.env.SAUCE_ACCESS_KEY;
 var tunnel_identifier = process.env.TRAVIS_JOB_NUMBER;
-var hub_url = "http://"+username+":"+access_key+"localhost:3000";
+var hub_url = "http://"+username+":"+access_key+"localhost:4445/wd/hub";
 var client = require('webdriverjs').remote({
    desiredCapabilities: {
         browserName: 'phantomjs',
