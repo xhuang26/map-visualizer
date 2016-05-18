@@ -6,7 +6,7 @@ addons:
     username: "xhuang62"
     access_key: "3bbbe590-919b-4bb0-a209-849d8af84776"
 before_script:
-  - "expport DISPLAY=:99.0"
+  - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
   - node server.js &
