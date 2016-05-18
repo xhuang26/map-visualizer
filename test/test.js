@@ -3,12 +3,13 @@ var expect = require('chai').expect;
 var username = process.env.SAUCE_USERNAME;
 var access_key = process.env.SAUCE_ACCESS_KEY;
 var tunnel_identifier = process.env.TRAVIS_JOB_NUMBER;
-var hub_url = "http://"+username+":"+access_key+"@localhost:4445/wd/hub";
-console.log(hub_url);
+//var hub_url = "http://"+username+":"+access_key+"@localhost:4445/wd/hub";
+//var hub_url = 'http://xhuang62:3bbbe590-919b-4bb0-a209-849d8af84776@localhost:4445/wd/hub';
+console.log(tunnel_identifier);
 var client = require('webdriverjs').remote({
    desiredCapabilities: {
-        browserName: 'phantomjs',
-        tunnelIdentifier: tunnel_identifier,
+       browserName: 'phantomjs',
+       tunnelIdentifier: tunnel_identifier
    },
     logLevel: 'silent',
     commandExecutor: hub_url
