@@ -30,6 +30,7 @@
             browser.notificationCheck('/','', 'No source url available.');
         });
     });
+<<<<<<< feda48bbb49c8b1620ca22c883452dd413669cd7
     describe('should have layers button work noramally', function(){
         
         var button = '.layer-list__toggle button';
@@ -68,6 +69,13 @@ describe('source loading', function(){
                 browser.waitELementDisappeared('.layer-list__body .layerlist__item');
             });
             it('should give correct data layer list when include a right format json file', function(){
+=======
+    describe('Check homepage', function(){
+        it('should see the correct title', function(done) {
+            client.getTitle(function(err, title){
+                expect(title).to.have.string('Google');
+                done();
+>>>>>>> try google instead
             });
         });
     });*/
