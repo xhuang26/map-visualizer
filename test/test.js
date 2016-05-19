@@ -20,7 +20,7 @@ var client = require('webdriverjs').remote({
 });
 client.init();
 
-client.url('https://www.google.com');
+client.url('http://localhost:4000');
 
 /*var client = new webdriver.Builder().
   withCapabilities({
@@ -37,7 +37,7 @@ client.get('https://www.google.com');*/
 
 describe('simple test', function(){
     before(function(done) {
-        client.init().url('https://www.google.com', done);
+        client.init().url('http://localhost:4000', done);
     });
     describe('naive equal test', function(){
       it('1 equals to 1', function(done){
@@ -49,7 +49,7 @@ describe('simple test', function(){
     describe('Check homepage', function(){
         it('should see the correct title', function(done) {
             client.getTitle(function(err, title){
-                expect(title).to.have.string('Google');
+                expect(title).to.have.string('Visualize');
                 done();
             });
             done();
