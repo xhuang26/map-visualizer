@@ -29,8 +29,7 @@ var client = new webdriver.Builder().
     'accessKey': accessKey,
     'tunnelIdentifier': tunnel_identifier
   }).
-  usingServer("http://" + username + ":" + accessKey +
-              "@ondemand.saucelabs.com:80/wd/hub").
+  usingServer(hub_url).
   build();
 client.get('http://localhost:3000');
 
@@ -45,6 +44,8 @@ describe('simple test', function(){
     describe('Check homepage', function(){
         it('should see the correct title', function(done) {
             client.getTitle(function(err, title){
+                console.log("error is: "+ err);
+                console.log("title is:" + title);
                 expect(title).to.have.string('Visualize');
                 done();
             });
