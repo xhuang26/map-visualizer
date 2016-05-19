@@ -35,9 +35,6 @@ var client = new webdriver.Builder().
 client.get('http://localhost:3000');
 
 describe('simple test', function(){
-    before(function(done) {
-        client.init().url('http://localhost:3000', done);
-    });
     describe('naive equal test', function(){
       it('1 equals to 1', function(done){
           var foo = 1;
@@ -55,7 +52,7 @@ describe('simple test', function(){
     });
     
     after(function(done) {
-        client.end();
+        client.quit();
         done();
     });
 });
