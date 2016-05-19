@@ -26,10 +26,11 @@ var client = new webdriver.Builder().
     'platform': 'Windows XP',
     'version': '43.0',
     'username': username,
-    'accessKey': accessKey
+    'accessKey': accessKey,
+    'tunnelIdentifier': tunnel_identifier
   }).
   usingServer("http://" + username + ":" + accessKey +
-              "@ondemand.saucelabs.com:4445/wd/hub").
+              "@ondemand.saucelabs.com:80/wd/hub").
   build();
 client.get('http://localhost:3000');
 
