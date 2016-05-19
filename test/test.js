@@ -49,7 +49,7 @@ describe('simple test', function(){
                 expect(title).to.have.string('Visualize');
                 done();
             });*/
-            client.getTitle.then(function (title) {
+            client.getTitle().then(function (title) {
                 console.log("title is: " + title);
                 expect(title).to.have.string('Google');
                 done();
