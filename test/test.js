@@ -1,4 +1,5 @@
 
+
 /*describe('simple test', function(){
     before('set up url', function(){
         console.log("set url")
@@ -145,14 +146,8 @@ describe('source loading', function(){
         });
     });
     
-<<<<<<< 27b0daaa6040171da2fcaf8bc00cb13359325c5b
    after(function(done) {
         browser
             .call(done);
-=======
-    after(function(done) {
-        client.end();
-        done();
->>>>>>> fix syntax for web driver
     });
 });
