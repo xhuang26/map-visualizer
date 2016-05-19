@@ -43,10 +43,15 @@ describe('simple test', function(){
     });
     describe('Check homepage', function(){
         it('should see the correct title', function(done) {
-            client.getTitle(function(err, title){
+            /*client.getTitle(function(err, title){
                 console.log("error is: "+ err);
                 console.log("title is:" + title);
                 expect(title).to.have.string('Visualize');
+                done();
+            });*/
+            client.getTitle.then(function (title) {
+                console.log("title is: " + title);
+                expect(title).to.have.string('Google');
                 done();
             });
         });
