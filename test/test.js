@@ -1,22 +1,38 @@
 var expect = require('chai').expect;
-
+var webdriver = require('selenium-webdriver');
 var username = process.env.SAUCE_USERNAME;
-var access_key = process.env.SAUCE_ACCESS_KEY;
+var accessKey = process.env.SAUCE_ACCESS_KEY;
 var tunnel_identifier = process.env.TRAVIS_JOB_NUMBER;
-var hub_url = "http://"+username+":"+access_key+"@localhost:4445/wd/hub";
+var hub_url = "http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:4445/wd/hub";
 //var hub_url = 'http://xhuang62:3bbbe590-919b-4bb0-a209-849d8af84776@localhost:4445/wd/hub';
-console.log(tunnel_identifier);
-var client = require('webdriverjs').remote({
+console.log(hub_url);
+/*var client = require('webdriverjs').remote({
+    port: 4445,
    desiredCapabilities: {
-       browserName: 'phantomjs',
-       tunnelIdentifier: tunnel_identifier
+       'browserName': 'chrome',
+       'platform': 'Windows XP',
+       'version': '43.0',
+       'tunnelIdentifier': tunnel_identifier
    },
     logLevel: 'silent',
-    commandExecutor: hub_url
+   
 });
 client.init();
 
-client.url('http://localhost:3000');
+client.url('http://localhost:3000');*/
+var client = new webdriver.Builder().
+  withCapabilities({
+    'browserName': 'chrome',
+    'platform': 'Windows XP',
+    'version': '43.0',
+    'username': username,
+    'accessKey': accessKey
+  }).
+  usingServer("http://" + username + ":" + accessKey +
+              "@ondemand.saucelabs.com:4445/wd/hub").
+  build();
+client.get('http://localhost:3000');
+
 describe('simple test', function(){
     before(function(done) {
         client.init().url('http://localhost:3000', done);
