@@ -1,16 +1,11 @@
 language: node_js
 node_js:
   - 4.1
-addons:
-  sauce_connect:
-    username: "xhuang62"
-    access_key: "3bbbe590-919b-4bb0-a209-849d8af84776"
 before_script:
   - "npm install mocha chai"
   - "npm install selenium-webdriver"
   - "npm install express"
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - "java -jar selenium-server-standalone-2.53.0.jar &"
   - sleep 3
   - node server.js &
   - sleep 5
