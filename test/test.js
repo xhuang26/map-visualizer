@@ -31,7 +31,7 @@ var client = new webdriver.Builder().
   }).
   usingServer(hub_url).
   build();
-client.get('http://localhost:3000');
+client.get('https://www.google.com');
 
 describe('simple test', function(){
     describe('naive equal test', function(){
