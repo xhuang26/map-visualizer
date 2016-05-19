@@ -1,68 +1,76 @@
 var expect = require('chai').expect;
-//var webdriver = require('selenium-webdriver');
 var username = process.env.SAUCE_USERNAME;
-//var accessKey = process.env.SAUCE_ACCESS_KEY;
-//var tunnel_identifier = process.env.TRAVIS_JOB_NUMBER;
-//var hub_url = "http://" + username + ":" + accessKey + "@ondemand.saucelabs.com:4445/wd/hub";
-//var hub_url = 'http://xhuang62:3bbbe590-919b-4bb0-a209-849d8af84776@localhost:4445/wd/hub';
-//console.log(hub_url);
-var client = require('webdriverjs').remote({
-   //port: 4445,
+var webdriverio = require('webdriverio');
+var options = {
    desiredCapabilities: {
-       /*'browserName': 'chrome',
-       'platform': 'Windows XP',
-       'version': '43.0'
-       'tunnelIdentifier': tunnel_identifier*/
        browserName: 'phantomjs'
-   },
-    logLevel: 'silent'
-    //commandExecutor: hub_url
-});
-client.init();
+   }
+};
+var client = webdriverio.remote(options);
+//client.init();
 
-client.url('http://localhost:4000');
+//client.url('http://localhost:4000');
 
-/*var client = new webdriver.Builder().
-  withCapabilities({
-    'browserName': 'chrome',
-    'platform': 'Windows XP',
-    'version': '43.0',
-    'username': username,
-    'accessKey': accessKey,
-    'tunnelIdentifier': tunnel_identifier
-  }).
-  usingServer(hub_url).
-  build();
-client.get('https://www.google.com');*/
 
 describe('simple test', function(){
     before(function(done) {
-        client.init().url('http://localhost:4000', done);
-    });
-    describe('naive equal test', function(){
-      it('1 equals to 1', function(done){
-          var foo = 1;
-          expect(foo).to.equal(1); 
-          done();
-        });  
+        client
+            .init()
+            .url('http://localhost:4000')
+            .call(done);
     });
     describe('Check homepage', function(){
         it('should see the correct title', function(done) {
-            client.getTitle(function(err, title){
-                expect(title).to.have.string('Visualize');
-                done();
-            });
-            done();
-            /*client.getTitle().then(function (title) {
-                console.log("title is: " + title);
-                expect(title).to.have.string('Google');
-                done();
-            });*/
+            client
+                .getTitle(function(err, title){
+                    if(err)
+                        throw err;
+                    expect(title).to.have.string('Visualize');
+                 })
+                .call(done);
+           
+        });
+        it('should have body', function(done){
+            client
+                .element('body', function(err, res){
+                    if(err)
+                        throw err;
+                 })
+                .call(done);
+           
+        });
+        it('should have map with the size same as viewport', function(done){
+           var viewportHeight = 0;
+           var viewportWidth = 0;
+           client
+                .element('#map', function(err, res){
+                    if(err)
+                        throw err;
+                })
+                .getViewportSize('width', function(err, width){
+                    viewportWidth = width;
+                })
+                .getViewportSize('height', function(err, height){
+                    viewportHeight = height;
+                })
+                .getCssProperty('#map', 'width', function(err, width){
+                    if(err)
+                        throw err;
+                    console.log(viewportWidth);
+                    expect(width).to.equal(viewportWidth);
+                })  
+                .getCssProperty('#map', 'height', function(err, height){
+                    if(err)
+                        throw err;
+                    console.log(viewportHeight);
+                    expect(height).to.equal(viewportHeight);
+                })
+                .call(done);
         });
     });
-    
     after(function(done) {
-        client.end();
-        done();
+        client
+            .end()
+            .call(done);
     });
 });
