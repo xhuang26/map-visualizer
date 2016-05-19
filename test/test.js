@@ -151,7 +151,7 @@ describe('source loading', function(){
             .call(done);
 =======
     after(function(done) {
-        client.quit();
+        client.end();
         done();
 >>>>>>> fix syntax for web driver
     });
