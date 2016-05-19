@@ -3,7 +3,7 @@ node_js:
   - 4.1
 before_script:
   - "npm install mocha chai"
-  - "npm install selenium-webdriver"
+  - "npm install webdriverjs"
   - "npm install express"
   - "java -jar selenium-server-standalone-2.53.0.jar &"
   - sleep 3
