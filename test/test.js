@@ -68,7 +68,6 @@ describe('source loading', function(){
                 browser.waitELementDisappeared('.layer-list__body .layerlist__item');
             });
             it('should give correct data layer list when include a right format json file', function(){
-                
             });
         });
     });*/
