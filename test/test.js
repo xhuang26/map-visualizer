@@ -144,6 +144,7 @@ describe('source loading', function(){
         it('should catch error when extent string contains invalid data', function(){
             
         });
+        
     });
     
    after(function(done) {
