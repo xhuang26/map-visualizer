@@ -1,76 +1,67 @@
-var expect = require('chai').expect;
-var username = process.env.SAUCE_USERNAME;
-var webdriverio = require('webdriverio');
-var options = {
-   desiredCapabilities: {
-       browserName: 'phantomjs'
-   }
-};
-var client = webdriverio.remote(options);
-//client.init();
 
-//client.url('http://localhost:4000');
+//const webdriverio = require('webdriverio');
+//const chai = require('chai');
+
+//var chaiAsPromised = require('chai-as-promised');
+//chai.Should();
+/*chai.use(chaiAsPromised);
+chaiAsPromised.transferPromiseness = client.transferPromiseness;*/
+//var expect = chai.expect;
+/*var options = {
+   desiredCapabilities: {
+       browserName: 'phantomjs',
+       loggingPrefs: {
+          'driver': 'INFO',
+          'browser': 'INFO'
+        }
+   },
+   logLevel: 'result'
+};*/
+//var client = webdriverio.remote(options);
 
 
 describe('simple test', function(){
-    before(function(done) {
-        client
-            .init()
-            .url('http://localhost:4000')
-            .call(done);
+    before(function() {
+        
+        browser
+            //.init()
+            .url('http://localhost:4000');
     });
-    describe('Check homepage', function(){
-        it('should see the correct title', function(done) {
-            client
-                .getTitle(function(err, title){
-                    if(err)
-                        throw err;
-                    expect(title).to.have.string('Visualize');
-                 })
-                .call(done);
-           
-        });
-        it('should have body', function(done){
-            client
-                .element('body', function(err, res){
-                    if(err)
-                        throw err;
-                 })
-                .call(done);
+    describe('Check homepage when first loaded', function(){
+        it('should see the correct title', function() {
+            var title = browser.getTitle();
+            expect(title).to.equal('Visualize');
            
         });
         it('should have map with the size same as viewport', function(done){
-           var viewportHeight = 0;
-           var viewportWidth = 0;
-           client
-                .element('#map', function(err, res){
-                    if(err)
-                        throw err;
+            var viewportHeight = browser.getViewportSize('height')+"px";
+            var viewportWidth = browser.getViewportSize('width')+"px";
+            var mapWidth = browser.getCssProperty('#map', 'width').value;
+            var mapHeight = browser.getCssProperty('#map', 'height').value;
+            expect(mapWidth).to.equal(viewportWidth);
+            expect(mapHeight).to.equal(viewportHeight);
+        })
+        it('should have list hidden', function(done){
+            var judge= browser.isExisting('#map div');
+            console.log(judge);
+            browser.pause(100000);
+            done();
+                /*.element('#notifications').then(function(res){
+                    console.log(res.value);
                 })
-                .getViewportSize('width', function(err, width){
-                    viewportWidth = width;
+                .log('browser').then(function(msg) {
+                    console.log(msg);
+                    // under phantomjs, it shows correctly
+                    // under chrome it shows null log
                 })
-                .getViewportSize('height', function(err, height){
-                    viewportHeight = height;
-                })
-                .getCssProperty('#map', 'width', function(err, width){
-                    if(err)
-                        throw err;
-                    console.log(viewportWidth);
-                    expect(width).to.equal(viewportWidth);
-                })  
-                .getCssProperty('#map', 'height', function(err, height){
-                    if(err)
-                        throw err;
-                    console.log(viewportHeight);
-                    expect(height).to.equal(viewportHeight);
-                })
-                .call(done);
+                .call(done);*/
+            
         });
+        
     });
-    after(function(done) {
-        client
-            .end()
+   after(function(done) {
+        browser
+            //.end()
             .call(done);
     });
 });
