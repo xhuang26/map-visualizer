@@ -156,25 +156,18 @@ exports.config = {
         browser.addCommand('waitELementDisappeared', function(selector){
             expect(browser.waitForExist(selector, 1000, true)).to.equal(true);
         });
-        browser.addCommand('slideAndVerify', function(slider, index) {
-            //var offset = $(slider).offset();
-            //var offset_top = offset.top;
-            //var offset_left = offset.left;
+        browser.addCommand('slide', function(button, slider) {
+            browser.click(button);
+            //browser.setValue(slider, 50);
+            
             var height = browser.getElementSize('#map', 'height');
             var width = browser.getElementSize('#map', 'width');
             //var initial_y = offset_top + height/2;
             var initial_x = width-5;
             var initial_y = height/2;
-            var final_x = -width*0.5;
-            var final_y = initial_y;
             console.log(initial_x);
             browser.moveToObject(slider, initial_x, initial_y);
-            browser.buttonDown();
-            browser.pause(10000);
-            browser.moveTo(final_x, 0);
-            browser.pause(10000);
-            browser.buttonUp();
-           
+            browser.click(slider);
                 
         });
     },
