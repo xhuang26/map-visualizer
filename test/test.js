@@ -53,29 +53,71 @@ describe('simple test', function(){
     });
 });
 describe('source loading', function(){
-    describe('file url is invalid', function(){
+    describe('source file', function(){
         //try to explore as much cases as possible
         it('should notify when no source file url included', function(done){
-            location_hash = "/#source=";
+            var location_hash = "/#source=";
             browser.notificationCheck(location_hash,'#source=','No source url available.');
             browser.waitELementDisappeared('.layer-list__body .layerlist__item');
         });
-        it('should catch error when invalid json file included', function(){
-            location_hash="/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/invalid-json.json";
-            browser.notificationCheck(location_hash,'#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/invalid-json.json','Downloading source file...');
-            browser.waitELementDisappeared('.layer-list__body .layerlist__item');
+        describe('file data', function(){
+            it('should catch error when invalid json file format included', function(){
+                var location_hash="/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/invalid-json.json";
+                browser.notificationCheck(location_hash,'#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/invalid-json.json','Downloading source file...');
+                browser.waitELementDisappeared('.layer-list__body .layerlist__item');
+            });
+            it('should give correct data layer list when include a right format json file', function(){
+                
+            });
         });
     });
-    describe('file data does not pass validity test', function(){
-        
+    describe('config string', function(){
+        describe('opacity test', function(){
+            /*it('should change config string when opacity silder changed by user', function(){
+                var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/huc6.json";
+                browser.url(location_hash);
+                browser.pause(10000);
+                browser.click('.layer-list__toggle button');
+                console.log('get here');
+                var items = browser.elements('.layer-list__item');
+                console.log(items.value);
+                items.value.forEach(function(item, index){
+                    console.log("index: "+ index);
+                    var curr_ind = index+1;
+                    var curr_row = '.layer-list__item:nth-child('+curr_ind+')';
+                    var curr_buttom = curr_row+' .layer-list__item__action-opacity';
+                    expect(browser.isExisting(curr_buttom)).to.equal(true);
+                    var slider = curr_row+ ' .layer-list__item-row__input';
+                    expect(browser.isExisting(slider)).to.equal(true);
+                    browser.click(curr_buttom);
+                    browser.slideAndVerify(slider, index);
+                });
+                browser.pause(10000);
+                
+                
+            });*/
+            it('should have slider changed when config string set to value between 0 to 1 in url', function(){
+                
+            });
+            it('should have slider changed to 1 when config string set to value larger than 1 in url', function(){
+                
+            });
+            it('should have slider changed to 0 when config string set to value smaller than 0 in url', function(){
+                
+            });
+            it('should change opacity of layer object when config string is changed in url', function(){
+               
+            });
+        });
+        describe('layer order test', function(){
+            
+        });
+        describe('visible test', function(){
+            
+        });
     });
-        it('should catch error when invalid config string included', function(){
-            
-        });
-        it('should catch err when config string contains invalid data', function(){
-            
-        });
-        it('should catch error when invalid extent string included', function(){
+    describe('extent string', function(){
+       it('should catch error when invalid extent string included', function(){
             
         });
         it('should catch error when extent string contains invalid data', function(){
