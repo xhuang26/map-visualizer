@@ -915,5 +915,5 @@
     });
   });
 
-  window.map = map;
+  window.__map = map;
 })();
