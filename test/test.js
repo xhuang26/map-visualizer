@@ -56,7 +56,11 @@
     });
 });*/
 describe('source loading', function(){
+<<<<<<< 9d75e25cdee1b1a00bb5aad2df62d26ac2d07423
     /*describe('source file', function(){
+=======
+    describe('source file', function(){
+>>>>>>> fix type in test.js
         //try to explore as much cases as possible
         it('should notify when no source file url included', function(done){
             var location_hash = "/#source=";
