@@ -62,7 +62,7 @@ exports.config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'silent',
+    logLevel: 'result',
     //
     // Enables colors for log output.
     coloredLogs: true,
@@ -159,7 +159,6 @@ exports.config = {
         browser.addCommand('slide', function(button, slider) {
             browser.click(button);
             //browser.setValue(slider, 50);
-            
             var height = browser.getElementSize('#map', 'height');
             var width = browser.getElementSize('#map', 'width');
             //var initial_y = offset_top + height/2;
@@ -168,7 +167,6 @@ exports.config = {
             console.log(initial_x);
             browser.moveToObject(slider, initial_x, initial_y);
             browser.click(slider);
-                
         });
     },
     //
