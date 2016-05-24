@@ -62,7 +62,7 @@ exports.config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'result',
+    logLevel: 'silent',
     //
     // Enables colors for log output.
     coloredLogs: true,
@@ -124,7 +124,7 @@ exports.config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 10000
+        timeout: 100000
         //compilers: ['js:babel-register', 'js:babel-polyfill']
         
     },
@@ -147,17 +147,26 @@ exports.config = {
         global.webdriverio = require('webdriverio');
         var chai = require('chai');
         global.expect = chai.expect;
-        //browser.url('http://localhost:4000');
-    }
+    },
     //
     // Hook that gets executed before the suite starts
-    // beforeSuite: function (suite) {
-    // },
+    beforeSuite: function (suite) {
+        
+    },
     //
     // Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
     // beforeEach in Mocha)
-    // beforeHook: function () {
-    // },
+    beforeHook: function () {
+        browser.addCommand('notificationCheck', function(location_hash,text1, text2) {
+            browser.url(location_hash);
+            browser.waitForExist('#notifications'); 
+            expect(browser.getText('#notifications span:nth-Child(1)')).to.equal(text1); 
+            expect(browser.getText('#notifications span:nth-Child(2)')).to.equal(text2); 
+        });   
+        browser.addCommand('waitELementDisappeared', function(selector){
+            expect(browser.waitForExist(selector, 1000, true)).to.equal(true);
+        });
+    }
     //
     // Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
     // afterEach in Mocha)
