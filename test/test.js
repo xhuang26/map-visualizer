@@ -3,6 +3,7 @@ describe('simple test', function(){
     before('set up url', function(){
         console.log("set url")
         browser.url('/');
+
     });
     describe('Check homepage when first loaded', function(){
         
@@ -21,6 +22,12 @@ describe('simple test', function(){
         it('should have list hidden', function(){
             expect(browser.isExisting('#map .ol-viewport')).to.equal(true);
             expect(browser.isExisting('#map .ol-viewport .layer-list')).to.equal(true);
+            // browser.waitForExist('')
+            console.log("===============================");
+            console.log(browser.getCssProperty('.layer-list', 'width'));
+            console.log('second ================');
+            console.log( browser.element('.layer-list') );
+            // expect(browser.getCssProperty('.layer-list', ))
             expect(browser.getCssProperty('.layer-list', 'width').value).to.equal('0px');
         });
         it('should notifying user when no source url available', function(){ 
@@ -30,6 +37,7 @@ describe('simple test', function(){
         
     });
     describe('should have layers button work noramally', function(){  
+
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
             expect(browser.getText(button)).to.equal('layers');
@@ -90,7 +98,9 @@ describe('source loading', function(){
                     expect(browser.isExisting(slider)).to.equal(true);
                     browser.slide(curr_button, slider);
                 });
+
                 expect(browser.getUrl()).to.equal('http://localhost:4000/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___0_1_0.55_-_osm___0_1_0.55');
+
                 
             });
             it('should have slider changed to 1 when config string set to value larger than 1 in url', function(){
@@ -140,7 +150,7 @@ describe('source loading', function(){
     });
     describe('extent string', function(){
        it('should catch error when invalid extent string included', function(){
-            
+            var invalidExt = "extent=-9821647.857764916_4882293.360201804_-9820497.122190656_4882901.273442384 "
         });
         it('should catch error when extent string contains invalid data', function(){
             
