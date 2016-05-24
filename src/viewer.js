@@ -98,7 +98,6 @@
     for (let config of localConfigs) {
       segments.push(`${config.id}${UrlSymbals.Colon}${config.zIndex}${UrlSymbals.Comma}${Number(config.visible)}${UrlSymbals.Comma}${config.opacity}`);
     }
-
     return segments.join(UrlSymbals.SemiColon);
   };
 
@@ -307,6 +306,7 @@
 
     // Update hash.
     const configString = buildLayerConfigString(this.layers_);
+      
     setHashValue({
       "config": configString
     });
@@ -418,6 +418,7 @@
     } else {
       // Update hash.
       const configString = buildLayerConfigString(this.layers_);
+        console.log("configString: "+ configString);
       setHashValue({
         "config": configString
       });

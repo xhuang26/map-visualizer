@@ -1,4 +1,4 @@
-describe('simple test', function(){
+/*describe('simple test', function(){
     before('set up url', function(){
         console.log("set url")
         browser.url('/');
@@ -40,6 +40,7 @@ describe('simple test', function(){
             browser.click(button);
             browser.waitForVisible('#map .layer-list--expanded', 5000);
             browser.pause(1000);
+            browser.pause(10000);
             expect(browser.getElementSize('.layer-list', 'width')).to.equal(300);
             
             
@@ -51,9 +52,9 @@ describe('simple test', function(){
             expect(browser.getElementSize('.layer-list', 'width')).to.equal(0);
         });
     });
-});
+});*/
 describe('source loading', function(){
-    describe('source file', function(){
+    /*describe('source file', function(){
         //try to explore as much cases as possible
         it('should notify when no source file url included', function(done){
             var location_hash = "/#source=";
@@ -70,13 +71,13 @@ describe('source loading', function(){
                 
             });
         });
-    });
+    });*/
     describe('config string', function(){
         describe('opacity test', function(){
-            /*it('should change config string when opacity silder changed by user', function(){
-                var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/huc6.json";
+            it('should change config string when opacity silder changed by user', function(){
+                var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/two-layers.json";
                 browser.url(location_hash);
-                browser.pause(10000);
+                browser.pause(5000);
                 browser.click('.layer-list__toggle button');
                 console.log('get here');
                 var items = browser.elements('.layer-list__item');
@@ -85,32 +86,52 @@ describe('source loading', function(){
                     console.log("index: "+ index);
                     var curr_ind = index+1;
                     var curr_row = '.layer-list__item:nth-child('+curr_ind+')';
-                    var curr_buttom = curr_row+' .layer-list__item__action-opacity';
-                    expect(browser.isExisting(curr_buttom)).to.equal(true);
+                    var curr_button = curr_row+' .layer-list__item__action-opacity';
+                    expect(browser.isExisting(curr_button)).to.equal(true);
                     var slider = curr_row+ ' .layer-list__item-row__input';
                     expect(browser.isExisting(slider)).to.equal(true);
-                    browser.click(curr_buttom);
-                    browser.slideAndVerify(slider, index);
+                    browser.slide(curr_button, slider);
                 });
-                browser.pause(10000);
+                expect(browser.getUrl()).to.equal('http://localhost:4000/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___0_1_0.55_-_osm___0_1_0.55');
                 
-                
-            });*/
-            it('should have slider changed when config string set to value between 0 to 1 in url', function(){
                 
             });
-            it('should have slider changed to 1 when config string set to value larger than 1 in url', function(){
-                
+            it('should have slider changed to 1 whenfig string set to value larger than 1 in url', function(){
+                var location_hash = '/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___1_1_2.0_-_osm___0_1_0.55';
+                browser.url(location_hash);
+                var slider1 = '.layer-list__item:nth-child(1) .layer-list__item-row__input';
+                var slider2 = '.layer-list__item:nth-child(2) .layer-list__item-row__input';
+                expect(browser.isExisting(slider1)).to.equal(true);
+                expect(browser.isExisting(slider2)).to.equal(true);
+                expect(browser.getValue(slider1)).to.equal('100');
+                expect(browser.getValue(slider2)).to.equal('55');
             });
             it('should have slider changed to 0 when config string set to value smaller than 0 in url', function(){
-                
+                var location_hash = '/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___1_1_-1_-_osm___0_1_0.55';
+                browser.url(location_hash);
+                var slider1 = '.layer-list__item:nth-child(1) .layer-list__item-row__input';
+                var slider2 = '.layer-list__item:nth-child(2) .layer-list__item-row__input';
+                expect(browser.isExisting(slider1)).to.equal(true);
+                expect(browser.isExisting(slider2)).to.equal(true);
+                expect(browser.getValue(slider1)).to.equal('10');
+                expect(browser.getValue(slider2)).to.equal('55');
             });
             it('should change opacity of layer object when config string is changed in url', function(){
-               
+                //console.log(browser.log('browser'));
+                
             });
         });
         describe('layer order test', function(){
-            
+            it('should change the layer order in list when user click arrow', function(){
+                
+            });
+            it('should change the config string when layer order changed', function(){
+                
+            });
+            it('should not change layer order when trying to move the top layer up or bottom layer down', function(){
+                
+            });
+            //case when giving an invalid number as order
         });
         describe('visible test', function(){
             
