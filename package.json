@@ -1,0 +1,23 @@
+{
+  "name": "map-visualizer",
+  "version": "1.0.0",
+  "description": "Visualize layers from any sources.",
+  "main": "src/viewer.js",
+  "scripts": {
+    "lint": "./node_modules/eslint/bin/eslint.js src/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://zodiase@github.com/Zodiase/map-visualizer.git"
+  },
+  "author": "Xingchen Hong",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Zodiase/map-visualizer/issues"
+  },
+  "homepage": "https://github.com/Zodiase/map-visualizer#readme",
+  "devDependencies": {
+    "eslint": "^2.10.2"
+  }
+}
