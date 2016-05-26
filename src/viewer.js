@@ -321,7 +321,7 @@
     const layerId = layerElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
     let layerIndex = -1;
-    this.layers_.forEach((layer, index) => {
+    this.layers_.forEach((layer, index, layers) => {
       if (layer === thisLayer) {
         layerIndex = index;
       }
@@ -359,7 +359,7 @@
     const layerId = layerElement.getAttribute('data-layer-id');
     const thisLayer = this.layerMap_.get(layerId);
     let layerIndex = -1;
-    this.layers_.forEach((layer, index) => {
+    this.layers_.forEach((layer, index, layers) => {
       if (layer === thisLayer) {
         layerIndex = index;
       }
@@ -622,6 +622,7 @@
 
       const opacityRow = layerRowElement.querySelector(`.${this_.CssClasses_.ItemRow}.row-opacity`);
       const opacityInput = opacityRow.querySelector(`.${this_.CssClasses_.ItemRow}__input`);
+      const opacityValueLabel = opacityRow.querySelector(`.${this_.CssClasses_.ItemRow}__value-label`);
       const opacityInputValue = Math.floor(layer.opacity * 100);
       if (opacityInput.value !== opacityInputValue) {
         opacityInput.value = opacityInputValue;
@@ -725,13 +726,14 @@
       }
       console.log('Downloading source file...');
       $notificationContainer.append($('<span>').text('Downloading source file...'));
+      const JSONP_URL = (sourceUrl.indexOf('?') > -1) ? `${sourceUrl}&jsoncallback=?` : `${sourceUrl}?jsoncallback=?`;
       $.getJSON(sourceUrl)
       .fail((jqxhr, textStatus, error) => {
         const err = `${textStatus}, ${error}`;
         console.error(err);
         $notificationContainer.append($('<span>').text(err));
       })
-      .done((data) => {
+      .done((data, textStatus, jqxhr) => {
         console.info('Downloaded', data);
         $notificationContainer.empty();
         try {
