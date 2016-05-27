@@ -62,7 +62,7 @@ exports.config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'result',
+    logLevel: 'silent',
     //
     // Enables colors for log output.
     coloredLogs: true,
@@ -149,9 +149,10 @@ exports.config = {
         global.expect = chai.expect;
         browser.addCommand('notificationCheck', function(location_hash,text1, text2) {
             browser.url(location_hash);
-            browser.waitForExist('#notifications'); 
-            expect(browser.getText('#notifications span:nth-Child(1)')).to.equal(text1); 
-            expect(browser.getText('#notifications span:nth-Child(2)')).to.equal(text2); 
+            browser.waitForExist('#notifications span'); 
+            var texts= browser.getText('#notifications span');
+            expect(texts[0]).to.equal(text1); 
+            expect(texts[1]).to.equal(text2);
         });   
         browser.addCommand('waitELementDisappeared', function(selector){
             expect(browser.waitForExist(selector, 1000, true)).to.equal(true);
@@ -159,14 +160,16 @@ exports.config = {
         browser.addCommand('slide', function(button, slider) {
             browser.click(button);
             //browser.setValue(slider, 50);
-            var height = browser.getElementSize('#map', 'height');
-            var width = browser.getElementSize('#map', 'width');
+            var height = browser.getElementSize(slider, 'height');
+            var width = browser.getElementSize(slider, 'width');
             //var initial_y = offset_top + height/2;
-            var initial_x = width-5;
+            var initial_x = width+20;
             var initial_y = height/2;
+            initial_x = width/2;
             console.log(initial_x);
             browser.moveToObject(slider, initial_x, initial_y);
             browser.click(slider);
+            browser.pause(1000);
         });
     },
     //

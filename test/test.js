@@ -25,15 +25,11 @@ describe('simple test', function(){
         });
         it('should notifying user when no source url available', function(){ 
             browser.log('browser');
-            browser.waitForExist('#notifications span');
-            expect(browser.isExisting('#notifications span')).to.equal(true); 
-            expect(browser.getText('#notifications span:nth-Child(1)')).to.equal(''); 
-            expect(browser.getText('#notifications span:nth-Child(2)')).to.equal('No source url available.'); 
-            browser.notificationCheck('/','', 'No source url available.');
+           browser.notificationCheck('/','', 'No source url available.');
         });
         
     });
-    /*describe('should have layers button work noramally', function(){  
+    describe('should have layers button work noramally', function(){  
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
             expect(browser.getText(button)).to.equal('layers');
@@ -42,7 +38,6 @@ describe('simple test', function(){
             browser.click(button);
             browser.waitForVisible('#map .layer-list--expanded', 5000);
             browser.pause(1000);
-            browser.pause(10000);
             expect(browser.getElementSize('.layer-list', 'width')).to.equal(300);
             
             
@@ -53,9 +48,9 @@ describe('simple test', function(){
             browser.pause(1000);
             expect(browser.getElementSize('.layer-list', 'width')).to.equal(0);
         });
-    });*/
+    });
 });
-/*describe('source loading', function(){
+describe('source loading', function(){
     describe('source file', function(){
         //try to explore as much cases as possible
         it('should notify when no source file url included', function(done){
@@ -157,4 +152,4 @@ describe('simple test', function(){
             .call(done);
 
     });
-});*/
+});
