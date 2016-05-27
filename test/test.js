@@ -1,9 +1,4 @@
-<<<<<<< d62ec7623f60e54e4e9bf1dfdff8bdf9d9a4e0fe
 
-
-
-=======
->>>>>>> implement more test case
 /*describe('simple test', function(){
     before('set up url', function(){
         console.log("set url")
@@ -97,13 +92,6 @@ describe('source loading', function(){
                     browser.slide(curr_button, slider);
                 });
                 expect(browser.getUrl()).to.equal('http://localhost:4000/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___0_1_0.55_-_osm___0_1_0.55');
-<<<<<<< d62ec7623f60e54e4e9bf1dfdff8bdf9d9a4e0fe
-                
-                
-=======
-                
-                
->>>>>>> implement more test case
             });
             it('should have slider changed to 1 whenfig string set to value larger than 1 in url', function(){
                 var location_hash = '/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___1_1_2.0_-_osm___0_1_0.55';
@@ -159,5 +147,6 @@ describe('source loading', function(){
    after(function(done) {
         browser
             .call(done);
+
     });
 });
