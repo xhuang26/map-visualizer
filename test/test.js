@@ -1,5 +1,5 @@
 
-/*describe('simple test', function(){
+describe('simple test', function(){
     before('set up url', function(){
         console.log("set url")
         browser.url('/');
@@ -23,15 +23,18 @@
             expect(browser.isExisting('#map .ol-viewport .layer-list')).to.equal(true);
             expect(browser.getCssProperty('.layer-list', 'width').value).to.equal('0px');
         });
-        it('should notifying user when no source url available', function(){  
-            expect(browser.isExisting('#notifications')).to.equal(true); 
+        it('should notifying user when no source url available', function(){ 
+            browser.log('browser');
+            browser.waitForExist('#notifications span');
+            
+            expect(browser.isExisting('#notifications span')).to.equal(true); 
             expect(browser.getText('#notifications span:nth-Child(1)')).to.equal(''); 
             expect(browser.getText('#notifications span:nth-Child(2)')).to.equal('No source url available.'); 
             browser.notificationCheck('/','', 'No source url available.');
         });
         
     });
-    describe('should have layers button work noramally', function(){
+    /*describe('should have layers button work noramally', function(){
         
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
@@ -52,8 +55,8 @@
             browser.pause(1000);
             expect(browser.getElementSize('.layer-list', 'width')).to.equal(0);
         });
-    });
-});*/
+    });*/
+});
 /*describe('source loading', function(){
     describe('source file', function(){
         //try to explore as much cases as possible
@@ -98,11 +101,13 @@
                 
                 
             });
-            it('should have slider changed to 1 whenfig string set to value larger than 1 in url', function(){
+            it('should have slider changed to 1 when config string set to value larger than 1 in url', function(){
                 var location_hash = '/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___1_1_2.0_-_osm___0_1_0.55';
                 browser.url(location_hash);
                 var slider1 = '.layer-list__item:nth-child(1) .layer-list__item-row__input';
                 var slider2 = '.layer-list__item:nth-child(2) .layer-list__item-row__input';
+                browser.waitForExist(slider1);
+                browser.waitForExist(slider2);
                 expect(browser.isExisting(slider1)).to.equal(true);
                 expect(browser.isExisting(slider2)).to.equal(true);
                 expect(browser.getValue(slider1)).to.equal('100');
@@ -113,6 +118,8 @@
                 browser.url(location_hash);
                 var slider1 = '.layer-list__item:nth-child(1) .layer-list__item-row__input';
                 var slider2 = '.layer-list__item:nth-child(2) .layer-list__item-row__input';
+                browser.waitForExist(slider1);
+                browser.waitForExist(slider2);
                 expect(browser.isExisting(slider1)).to.equal(true);
                 expect(browser.isExisting(slider2)).to.equal(true);
                 expect(browser.getValue(slider1)).to.equal('10');
@@ -154,13 +161,3 @@
 
     });
 });*/
-describe('test code', function(){
-   it('should have div inside', function(){
-       browser.url('/');
-       browser.pause(3000);
-       console.log(browser.log('browser'));
-       browser.waitForExist('.material-icons');
-       //browser.waitForVisible('.material-icons');
-       
-   }) 
-});

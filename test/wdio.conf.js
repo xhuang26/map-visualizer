@@ -144,7 +144,7 @@ exports.config = {
     // Gets executed before test execution begins. At this point you can access all global
     // variables, such as `browser`. It is the perfect place to define custom commands.
     before: function (capabilities, specs) {
-        /*global.webdriverio = require('webdriverio');
+        global.webdriverio = require('webdriverio');
         var chai = require('chai');
         global.expect = chai.expect;
         browser.addCommand('notificationCheck', function(location_hash,text1, text2) {
@@ -169,7 +169,7 @@ exports.config = {
             browser.moveToObject(slider, initial_x, initial_y);
             browser.click(slider);
                 
-        });*/
+        });
     },
     //
     // Hook that gets executed before the suite starts
