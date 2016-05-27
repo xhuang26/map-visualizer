@@ -1,5 +1,3 @@
-.babelrc
 node_modules
-package.json
-
-
+test/errorShots
+sample-source

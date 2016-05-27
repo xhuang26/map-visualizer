@@ -44,7 +44,7 @@ exports.config = {
         // 5 instance gets started at a time.
         maxInstances: 5,
         //
-        browserName: 'firefox',
+        browserName: 'phantomjs',
         loggingPrefs: {
           'driver': 'INFO',
           'browser': 'INFO'
@@ -159,6 +159,10 @@ exports.config = {
         browser.addCommand('slide', function(button, slider) {
             browser.click(button);
             //browser.setValue(slider, 50);
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 7e93f73cf8fbd75224503ffe5f3c88e359d2455c
             var height = browser.getElementSize('#map', 'height');
             var width = browser.getElementSize('#map', 'width');
             //var initial_y = offset_top + height/2;
