@@ -46,8 +46,7 @@ describe('simple test', function(){
             browser.click(button);
             browser.waitForVisible('#map .layer-list--expanded', 5000);
             browser.pause(1000);
-            expect(browser.getElementSize('.layer-list', 'width')).to.equal(300);
-            
+            expect(browser.getElementSize('.layer-list', 'width')).to.equal(300);          
             
         });
         it('should have list hidden when click again', function(){
