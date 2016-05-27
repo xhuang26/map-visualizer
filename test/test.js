@@ -33,9 +33,7 @@ describe('simple test', function(){
         });
         
     });
-    /*describe('should have layers button work noramally', function(){
->>>>>>> 7e93f73cf8fbd75224503ffe5f3c88e359d2455c
-        
+    /*describe('should have layers button work noramally', function(){  
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
             expect(browser.getText(button)).to.equal('layers');

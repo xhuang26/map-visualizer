@@ -420,7 +420,6 @@
     } else {
       // Update hash.
       const configString = buildLayerConfigString(this.layers_);
-        console.log("configString: "+ configString);
       setHashValue({
         "config": configString
       });
