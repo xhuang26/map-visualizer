@@ -54,8 +54,8 @@
         });
     });
 });*/
-describe('source loading', function(){
-    /*describe('source file', function(){
+/*describe('source loading', function(){
+    describe('source file', function(){
         //try to explore as much cases as possible
         it('should notify when no source file url included', function(done){
             var location_hash = "/#source=";
@@ -72,13 +72,14 @@ describe('source loading', function(){
                 
             });
         });
-    });*/
+    });
     describe('config string', function(){
         describe('opacity test', function(){
             it('should change config string when opacity silder changed by user', function(){
                 var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/two-layers.json";
                 browser.url(location_hash);
                 browser.pause(5000);
+                browser.waitForExist('.layer-list__toggle button');
                 browser.click('.layer-list__toggle button');
                 console.log('get here');
                 var items = browser.elements('.layer-list__item');
@@ -152,4 +153,14 @@ describe('source loading', function(){
             .call(done);
 
     });
+});*/
+describe('test code', function(){
+   it('should have div inside', function(){
+       browser.url('/');
+       browser.pause(3000);
+       console.log(browser.log('browser'));
+       browser.waitForExist('.material-icons');
+       //browser.waitForVisible('.material-icons');
+       
+   }) 
 });
