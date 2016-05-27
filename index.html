@@ -16,34 +16,32 @@
     <div id="map"></div>
     <div id="notifications"></div>
     <!--<script src="https://rawgit.com/Zodiase/map-visualizer/master/src/viewer.js" type="text/javascript"></script>-->
-    <script src="./src/viewer.js" type="application/javascript;version=1.7">
+    <!--<script src="./src/viewer.js" type="application/javascript;version=1.7">
+    </script>-->
+    <script src="./lib/viewer.js" type="text/javascript">
     </script>
-      <script src="./src/viewer.js" type="text/javascript">
-    </script>
-  <!--<script type="text/javascript">
+    <!--<script type="text/javascript">
         (function(){
             'use strict';
-            const $map = $('#map');
-            const appendDiv = (m) => {
+            console.log("get here");
+            var map = $('#map');
+            var appendDiv = function(m) {
                 m.append($('<div>'));
                 
             };
-            const mybutton = function(){
+            appendDiv(map);
+            var mybutton = function(){
                 this.toggleButton_ = document.createElement('button');
                 this.toggleButton_.className = 'material-icons';
                 this.toggleButton_.title = 'Toggle layer list';
                 this.toggleButton_.textContent = 'layers';
             };
-            const $button = new mybutton();
-            appendDiv($map);
-            const $div = $('#map div');
-            console.log($div);
-            appendDiv($div);
-            $div.append($button.toggleButton_);
-            //$map.append($('<div>').text('test'));
-            console.log("get here1");
-            
+            var $button = new mybutton();
+            $('#map div').append($button.toggleButton_);
+            console.log('get here');
         })();
+        
+
     </script>-->
   </body>
 </html>

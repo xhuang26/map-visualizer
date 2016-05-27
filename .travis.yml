@@ -2,12 +2,11 @@ language: node_js
 node_js:
   - 4.1
 before_script:
-  - "npm install mocha chai"
-  - "npm install webdriverio"
-  - "npm install express"
+  - "npm install"
+  - "npm run build"
   - "java -jar selenium-server-standalone-2.53.0.jar &"
   - sleep 3
-  - node server.js &
+  - npm start &
   - sleep 5
 script:
   - mocha test/test.js  
