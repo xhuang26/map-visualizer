@@ -214,7 +214,7 @@
 
     // Internal data structure storing layers.
     this.layers_ = [];
-    this.layerMap_ = new Map();
+    this.layerMap_ = {};
 
     // The actual button to toggle the layer list.
     this.toggleButton_ = document.createElement('button');
@@ -304,7 +304,7 @@
     const rowElement = button.parentElement;
     const layerElement = rowElement.parentElement;
     const layerId = layerElement.getAttribute('data-layer-id');
-    const layer = this.layerMap_.get(layerId);
+    const layer = this.layerMap_[layerId];
     layer.visible = !layer.visible;
 
     // Update hash.
@@ -319,7 +319,7 @@
     const rowElement = button.parentElement;
     const layerElement = rowElement.parentElement;
     const layerId = layerElement.getAttribute('data-layer-id');
-    const thisLayer = this.layerMap_.get(layerId);
+    const thisLayer = this.layerMap_[layerId];
     let layerIndex = -1;
     this.layers_.forEach((layer, index) => {
       if (layer === thisLayer) {
@@ -357,7 +357,7 @@
     const rowElement = button.parentElement;
     const layerElement = rowElement.parentElement;
     const layerId = layerElement.getAttribute('data-layer-id');
-    const thisLayer = this.layerMap_.get(layerId);
+    const thisLayer = this.layerMap_[layerId];
     let layerIndex = -1;
     this.layers_.forEach((layer, index) => {
       if (layer === thisLayer) {
@@ -406,7 +406,7 @@
     const layerElement = rowElement.parentElement;
     const opacityToggle = layerElement.querySelector(`.${this.CssClasses_.ItemAction_Opacity}`);
     const layerId = layerElement.getAttribute('data-layer-id');
-    const thisLayer = this.layerMap_.get(layerId);
+    const thisLayer = this.layerMap_[layerId];
     // @range [1, 100]
     const inputValue = input.value;
     const opacityValue = inputValue * 0.01;
@@ -520,7 +520,9 @@
       container.removeChild(container.lastChild);
     }
     this.layers_.length = 0;
-    this.layerMap_.clear();
+    for (let key of Object.keys(this.layerMap_)) {
+      delete this.layerMap_[key];
+    }
 
     // Load layers into internal data structure.
     layerConfigs.forEach((config, index) => {
@@ -544,7 +546,7 @@
       }
 
       this.layers_.push(newLayer);
-      this.layerMap_.set(layerId, newLayer);
+      this.layerMap_[layerId] = newLayer;
     });
 
     this.sortLayers_();
@@ -599,8 +601,8 @@
           $listItems.detach().sort((a, b) => {
             const layerIdA = a.getAttribute('data-layer-id'),
                   layerIdB = b.getAttribute('data-layer-id');
-            const layerA = this.layerMap_.get(layerIdA),
-                  layerB = this.layerMap_.get(layerIdB);
+            const layerA = this.layerMap_[layerIdA],
+                  layerB = this.layerMap_[layerIdB];
             return this.compareLayerOrder_(layerA, layerB);
           })
       );
@@ -612,7 +614,7 @@
       const layerRowElement = this;
 
       const layerId = layerRowElement.getAttribute('data-layer-id');
-      const layer = this_.layerMap_.get(layerId);
+      const layer = this_.layerMap_[layerId];
 
       if (!layer.visible) {
         layerRowElement.classList.add(this_.CssClasses_.Item_Hidden);
