@@ -1,4 +1,6 @@
 # map-visualizer
+- install pjs
+	$ sudo npm install -g phantomjs
 - run selenuim
 	$ java -jar selenium-server-standalone-2.53.0.jar 
 

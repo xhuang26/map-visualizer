@@ -23,10 +23,6 @@ describe('simple test', function(){
             expect(browser.isExisting('#map .ol-viewport')).to.equal(true);
             expect(browser.isExisting('#map .ol-viewport .layer-list')).to.equal(true);
             // browser.waitForExist('')
-            console.log("===============================");
-            console.log(browser.getCssProperty('.layer-list', 'width'));
-            console.log('second ================');
-            console.log( browser.element('.layer-list') );
             // expect(browser.getCssProperty('.layer-list', ))
             expect(browser.getCssProperty('.layer-list', 'width').value).to.equal('0px');
         });
@@ -40,7 +36,6 @@ describe('simple test', function(){
 
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
-            console.log("!!!!!!!!!!!!!!!!!!!!!!"+button);
             expect(browser.getText(button)).to.equal('layers');
         });
         it('should span the list when click', function(){
@@ -150,8 +145,46 @@ describe('source loading', function(){
         });
     });
     describe('extent string', function(){
-       it('should catch error when invalid extent string included', function(){
-            var invalidExt = "extent=-9821647.857764916_4882293.360201804_-9820497.122190656_4882901.273442384 "
+        it('should follow extent set by url if any', function(){
+            var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/tiled-arcgis.json&extent=-100_15_-40_50";
+            browser.url(location_hash);
+            browser.pause(1000); // to be deleted?
+            var extUrl = [-100, 15, -40, 50];
+            var absCenter = [(extUrl[0]+extUrl[2])/2, (extUrl[1]+extUrl[3])/2];
+            var browserExtent = browser.execute(function() {
+                return __map.getView().calculateExtent(__map.getSize());
+            });
+            //browser should contain the desired view
+            expect(extUrl[0]>=browserExtent.value[0]);
+            expect(extUrl[2]<=browserExtent.value[2]);
+            expect(extUrl[1]>=browserExtent.value[1]);
+            expect(extUrl[3]<=browserExtent.value[3]);
+
+            var center = browser.execute(function(){
+                return window.__map.getView().getCenter();
+            });
+            expect(center.value).to.deep.equal(absCenter);
+        });
+
+        it('should switch back to extent setting in src file if delete extent from url', function(){
+            var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/tiled-arcgis.json";
+            browser.url(location_hash);
+            browser.pause(1000); // to be deleted?        
+            var extUrl = [-129.19921874999997, 20.9203969139719, -62.402343749999986, 52.829320910313726];
+            var absCenter = [(extUrl[0]+extUrl[2])/2, (extUrl[1]+extUrl[3])/2];
+            var browserExtent = browser.execute(function() {
+                return __map.getView().calculateExtent(__map.getSize());
+            });
+            //browser should contain the desired view
+            expect(extUrl[0]>=browserExtent.value[0]);
+            expect(extUrl[2]<=browserExtent.value[2]);
+            expect(extUrl[1]>=browserExtent.value[1]);
+            expect(extUrl[3]<=browserExtent.value[3]);
+
+            var center = browser.execute(function(){
+                return window.__map.getView().getCenter();
+            });
+            expect(center.value).to.deep.equal(absCenter);
         });
         it('should catch error when extent string contains invalid data', function(){
             
