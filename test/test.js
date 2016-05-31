@@ -21,10 +21,7 @@ describe('simple test', function(){
             expect(browser.isExisting('#map .ol-viewport .layer-list')).to.equal(true);
             expect(browser.getCssProperty('.layer-list', 'width').value).to.equal('0px');
         });
-        it('should notifying user when no source url available', function(){ 
-            browser.log('browser');
-           browser.notificationCheck('/','', 'No source url available.');
-        });
+        
         
     });
     describe('should have layers button work noramally', function(){  
@@ -57,6 +54,10 @@ describe('source loading', function(){
                 browser.reseturl(location_hash);
                 browser.notificationCheck(location_hash,'#source=','No source url available.');
                 browser.waitELementDisappeared('.layer-list__body .layerlist__item');
+            });
+            it('should notifying user when no source url available', function(){ 
+                browser.log('browser');
+                browser.notificationCheck('/','', 'No source url available.');
             });
             //test will fail for this case now, need to change code
             it('should have list renewed when url changed', function(){
