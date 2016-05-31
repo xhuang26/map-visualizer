@@ -1,6 +1,7 @@
 describe('simple test', function(){
     before('set up url', function(){
         browser.url('/');
+
     });
     describe('Check homepage when first loaded', function(){
         
@@ -19,12 +20,15 @@ describe('simple test', function(){
         it('should have list hidden', function(){
             expect(browser.isExisting('#map .ol-viewport')).to.equal(true);
             expect(browser.isExisting('#map .ol-viewport .layer-list')).to.equal(true);
+            // browser.waitForExist('')
+            // expect(browser.getCssProperty('.layer-list', ))
             expect(browser.getCssProperty('.layer-list', 'width').value).to.equal('0px');
         });
         
         
     });
     describe('should have layers button work noramally', function(){  
+
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
             expect(browser.getText(button)).to.equal('layers');
@@ -33,8 +37,7 @@ describe('simple test', function(){
             browser.click(button);
             browser.waitForVisible('#map .layer-list--expanded', 5000);
             browser.pause(1000);
-            expect(browser.getElementSize('.layer-list', 'width')).to.equal(300);
-            
+            expect(browser.getElementSize('.layer-list', 'width')).to.equal(300);          
             
         });
         it('should have list hidden when click again', function(){
@@ -99,8 +102,10 @@ describe('source loading', function(){
                     expect(browser.isExisting(slider)).to.equal(true);
                     browser.slide(curr_button, slider);
                 });
+
                 expect(browser.getUrl()).to.equal('http://localhost:4000/#source=https%3A%2F%2Fraw.githubusercontent.com%2FZodiase%2Fmap-visualizer%2Fgh-pages%2Fsample-source%2Ftwo-layers.json&config=mapquest___0_1_0.55_-_osm___0_1_0.55');
-                browser.click('.layer-list__toggle button');
+
+
                 
             });
             it('should have slider changed to 1 when config string set to value larger than 1 in url', function(){
@@ -142,6 +147,7 @@ describe('source loading', function(){
             });
         });
         describe('layer order test', function(){
+
             it('should change the layer order in list when user click arrow', function(){
                 browser.reseturl("/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/two-layers.json");
                 browser.waitForExist('.layer-list__toggle button');
@@ -275,8 +281,46 @@ describe('source loading', function(){
         });
     });
     describe('extent string', function(){
-       it('should catch error when invalid extent string included', function(){
-            
+        it('should follow extent set by url if any', function(){
+            var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/tiled-arcgis.json&extent=-100_15_-40_50";
+            browser.url(location_hash);
+            browser.pause(1000); // to be deleted?
+            var extUrl = [-100, 15, -40, 50];
+            var absCenter = [(extUrl[0]+extUrl[2])/2, (extUrl[1]+extUrl[3])/2];
+            var browserExtent = browser.execute(function() {
+                return __map.getView().calculateExtent(__map.getSize());
+            });
+            //browser should contain the desired view
+            expect(extUrl[0]>=browserExtent.value[0]);
+            expect(extUrl[2]<=browserExtent.value[2]);
+            expect(extUrl[1]>=browserExtent.value[1]);
+            expect(extUrl[3]<=browserExtent.value[3]);
+
+            var center = browser.execute(function(){
+                return window.__map.getView().getCenter();
+            });
+            expect(center.value).to.deep.equal(absCenter);
+        });
+
+        it('should switch back to extent setting in src file if delete extent from url', function(){
+            var location_hash = "/#source=https://raw.githubusercontent.com/Zodiase/map-visualizer/gh-pages/sample-source/tiled-arcgis.json";
+            browser.url(location_hash);
+            browser.pause(1000); // to be deleted?        
+            var extUrl = [-129.19921874999997, 20.9203969139719, -62.402343749999986, 52.829320910313726];
+            var absCenter = [(extUrl[0]+extUrl[2])/2, (extUrl[1]+extUrl[3])/2];
+            var browserExtent = browser.execute(function() {
+                return __map.getView().calculateExtent(__map.getSize());
+            });
+            //browser should contain the desired view
+            expect(extUrl[0]>=browserExtent.value[0]);
+            expect(extUrl[2]<=browserExtent.value[2]);
+            expect(extUrl[1]>=browserExtent.value[1]);
+            expect(extUrl[3]<=browserExtent.value[3]);
+
+            var center = browser.execute(function(){
+                return window.__map.getView().getCenter();
+            });
+            expect(center.value).to.deep.equal(absCenter);
         });
         it('should catch error when extent string contains invalid data', function(){
             
