@@ -132,6 +132,7 @@ describe('source loading', function(){
             });
         });
         describe('layer order test', function(){
+
             it('should change the layer order in list when user click arrow', function(){
                 
             });
