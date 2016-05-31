@@ -166,10 +166,13 @@ exports.config = {
             var initial_x = width+20;
             var initial_y = height/2;
             initial_x = width/2;
-            console.log(initial_x);
             browser.moveToObject(slider, initial_x, initial_y);
             browser.click(slider);
             browser.pause(1000);
+        });
+        browser.addCommand('reseturl', function(location_hash){
+           browser.url('/'); 
+           browser.url(location_hash);
         });
     },
     //
