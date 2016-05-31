@@ -1,6 +1,7 @@
 # map-visualizer
 - run selenuim
 	$ java -jar selenium-server-standalone-2.53.0.jar 
+
 - install express, chai locally
 	$ npm install express AND chai
 - install webdriver
@@ -9,3 +10,6 @@
 	$ ./node_modules/.bin/wdio --help
 - install mocha framework
 	$ npm install wdio-mocha-framework
+	
+- run web server
+	$ node server.js

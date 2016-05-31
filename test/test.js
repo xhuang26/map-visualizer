@@ -40,6 +40,7 @@ describe('simple test', function(){
 
         var button = '.layer-list__toggle button';
         it('should have "layer" in text', function(){
+            console.log("!!!!!!!!!!!!!!!!!!!!!!"+button);
             expect(browser.getText(button)).to.equal('layers');
         });
         it('should span the list when click', function(){
